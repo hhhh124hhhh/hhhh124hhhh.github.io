@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Test - Simple</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #fff;
+            color: #333;
+        }
+        h1 { color: #000; margin-bottom: 20px; }
+        .video-box {
+            border: 3px solid #000;
+            margin: 20px 0;
+            padding: 10px;
+        }
+        video {
+            width: 100%;
+            max-width: 800px;
+            display: block;
+            background: #000;
+        }
+        .status {
+            margin: 10px 0;
+            font-weight: bold;
+            padding: 10px;
+        }
+        .loading { background: #fff3cd; color: #856404; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>Simple Video Test</h1>
+
+    <p>If you can see a black video box below, the HTML is rendering correctly.</p>
+
+    <div class="video-box">
+        <video id="myVideo" controls preload="auto" style="height: 450px; background: #000;"
+              onloadeddata="
+                  document.getElementById('status').innerHTML = 'SUCCESS! Video loaded. Duration: ' + this.duration + 's';
+                  document.getElementById('status').className = 'status success';
+              "
+              onerror="
+                  document.getElementById('status').innerHTML = 'ERROR! Video failed to load.';
+                  document.getElementById('status').className = 'status error';
+                  console.error('Video error:', this.error);
+              ">
+            <source src="https://raw.githubusercontent.com/hhhh124hhhh/hhhh124hhhh.github.io/master/achievement-system/achievement-system-intro.mp4" type="video/mp4">
+            <p>Your browser does not support video playback</p>
+        </video>
+    </div>
+
+    <div id="status" class="status loading">Waiting for video to load...</div>
+
+    <hr>
+
+    <h2>Backup: Download Video</h2>
+    <p><a href="https://raw.githubusercontent.com/hhhh124hhhh/hhhh124hhhh.github.io/master/achievement-system/achievement-system-intro.mp4"
+           target="_blank"
+           style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+        Download Video File (1.3MB)
+    </a></p>
+
+    <hr>
+
+    <h2>Diagnostic Information</h2>
+    <ul>
+        <li>Page load time: <span id="loadTime"></span></li>
+        <li>Video tag exists: <span id="videoTagExists"></span></li>
+        <li>Browser: <span id="browserInfo"></span></li>
+    </ul>
+
+    <script>
+        document.getElementById('loadTime').textContent = new Date().toLocaleTimeString();
+        document.getElementById('videoTagExists').textContent = document.getElementById('myVideo') ? 'YES' : 'NO';
+        document.getElementById('browserInfo').textContent = navigator.userAgent;
+
+        // Check video status every 2 seconds
+        setInterval(function() {
+            const video = document.getElementById('myVideo');
+            const status = document.getElementById('status');
+
+            if (video.error) {
+                status.innerHTML = 'ERROR: Video failed to load.<br>Error code: ' + video.error.code + '<br>Error message: ' + video.error.message;
+                status.className = 'status error';
+            } else if (video.readyState >= 3) {
+                // HAVE_FUTURE_DATA or higher
+                status.innerHTML = 'SUCCESS! Video is loaded and ready.<br>Duration: ' + video.duration + 's<br>Current time: ' + video.currentTime + 's<br>Playback status: ' + (video.paused ? 'Paused' : 'Playing');
+                status.className = 'status success';
+            } else if (video.readyState === 0) {
+                // HAVE_NOTHING
+                status.innerHTML = 'Waiting for video to load...<br>readyState: ' + video.readyState;
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
