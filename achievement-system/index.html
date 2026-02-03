@@ -522,6 +522,21 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        .video-container {
+            margin: 3rem 0;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 0 40px var(--accent-glow);
+            animation: fadeInUp 0.8s ease-out 0.8s backwards;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -562,6 +577,14 @@
             </a>
         </div>
     </section>
+
+    <!-- 视频介绍 -->
+    <div class="video-container">
+        <video autoplay muted loop playsinline>
+            <source src="./achievement-system-intro.mp4" type="video/mp4">
+            您的浏览器不支持视频播放
+        </video>
+    </div>
 
     <section class="section" id="features">
         <h2 class="section-title reveal">核心功能</h2>
