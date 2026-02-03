@@ -1,0 +1,4 @@
+# Cloudflare Pages Configuration
+
+# 禁用 SPA 模式
+compatibility_flags = []
