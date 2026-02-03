@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频调试 - 简单版本</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: #0a0e17;
+            color: #a0aec0;
+        }
+        h1 {
+            color: #667eea;
+        }
+        h2 {
+            color: #764ba2;
+            margin-top: 2rem;
+        }
+        .video-wrapper {
+            margin: 2rem 0;
+            border: 2px solid #667eea;
+            border-radius: 1rem;
+            overflow: hidden;
+            background: #000;
+        }
+        video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .info {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+        .status {
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+        .success { color: #10b981; }
+        .error { color: #ef4444; }
+        .link {
+            background: #667eea;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+        .link:hover {
+            background: #764ba2;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎬 成就系统视频 - 调试页面</h1>
+
+    <div class="info">
+        <h3>视频信息</h3>
+        <p>文件大小：1.3MB</p>
+        <p>视频时长：12 秒</p>
+        <p>分辨率：1080p</p>
+        <p>帧率：30fps</p>
+        <p>格式：MP4</p>
+    </div>
+
+    <h2>测试 1：GitHub 原始文件链接（推荐）</h2>
+    <div class="video-wrapper">
+        <video id="video1"
+               autoplay
+               muted
+               loop
+               controls
+               style="height: 562px; background: #000;"
+               onloadeddata="document.getElementById('status1').textContent='✅ 视频加载成功'; document.getElementById('status1').classList.add('success');"
+               onerror="document.getElementById('status1').textContent='❌ 视频加载失败'; document.getElementById('status1').classList.add('error');">
+            <source src="https://raw.githubusercontent.com/hhhh124hhhh/hhhh124hhhh.github.io/master/achievement-system/achievement-system-intro.mp4" type="video/mp4">
+            您的浏览器不支持视频播放
+        </video>
+    </div>
+    <p id="status1" class="status">⏳ 加载中...</p>
+    <a href="https://raw.githubusercontent.com/hhhh124hhhh/hhhh124hhhh.github.io/master/achievement-system/achievement-system-intro.mp4" target="_blank" class="link">直接下载视频</a>
+
+    <h2>测试 2：添加加载事件监听</h2>
+    <div class="video-wrapper">
+        <video id="video2"
+               autoplay
+               muted
+               loop
+               controls
+               style="height: 562px; background: #000;">
+            <source src="https://raw.githubusercontent.com/hhhh124hhhh/hhhh124hhhh.github.io/master/achievement-system/achievement-system-intro.mp4" type="video/mp4">
+            您的浏览器不支持视频播放
+        </video>
+    </div>
+    <p id="status2" class="status">⏳ 加载中...</p>
+
+    <h2>测试 3：不同格式</h2>
+    <div class="video-wrapper">
+        <video id="video3"
+               autoplay
+               muted
+               loop
+               controls
+               preload="auto"
+               style="height: 562px; background: #000;">
+            <source src="https://raw.githubusercontent.com/hhhh124hhhh/hhhh124hhhh.github.io/master/achievement-system/achievement-system-intro.mp4" type="video/mp4">
+            <source src="https://raw.githubusercontent.com/hhhh124hhhh/hhhh124hhhh.github.io/master/achievement-system/achievement-system-intro.mp4" type="video/mp4; codecs='avc1.42E01E, mp4a.40.2'">
+            您的浏览器不支持视频播放
+        </video>
+    </div>
+    <p id="status3" class="status">⏳ 加载中...</p>
+
+    <script>
+        // 监听视频加载状态
+        document.addEventListener('DOMContentLoaded', function() {
+            const video2 = document.getElementById('video2');
+            const video3 = document.getElementById('video3');
+            const status2 = document.getElementById('status2');
+            const status3 = document.getElementById('status3');
+
+            // 视频 2
+            video2.addEventListener('loadeddata', function() {
+                status2.textContent = '✅ 视频加载成功 (duration: ' + video2.duration + 's)';
+                status2.classList.add('success');
+            });
+            video2.addEventListener('error', function(e) {
+                status2.textContent = '❌ 视频加载失败: ' + e.target.error.message;
+                status2.classList.add('error');
+            });
+
+            // 视频 3
+            video3.addEventListener('loadeddata', function() {
+                status3.textContent = '✅ 视频加载成功 (duration: ' + video3.duration + 's)';
+                status3.classList.add('success');
+            });
+            video3.addEventListener('error', function(e) {
+                status3.textContent = '❌ 视频加载失败: ' + e.target.error.message;
+                status3.classList.add('error');
+            });
+        });
+    </script>
+</body>
+</html>
