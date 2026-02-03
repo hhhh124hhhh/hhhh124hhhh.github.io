@@ -524,18 +524,21 @@
         }
 
         .video-container {
-            margin: 3rem 0;
+            margin: 3rem auto;
+            max-width: 1000px;
             border-radius: 1rem;
             overflow: hidden;
             border: 2px solid var(--border-color);
             box-shadow: 0 0 40px var(--accent-glow);
             animation: fadeInUp 0.8s ease-out 0.8s backwards;
+            background: #000;
         }
 
         .video-container video {
             width: 100%;
-            height: auto;
+            height: 562px; /* 16:9 aspect ratio for 1000px width */
             display: block;
+            background: #000;
         }
     </style>
 </head>
@@ -580,7 +583,15 @@
 
     <!-- 视频介绍 -->
     <div class="video-container">
-        <video id="intro-video" autoplay muted loop playsinline controls>
+        <video id="intro-video"
+               autoplay
+               muted
+               loop
+               playsinline
+               controls
+               style="width: 100%; height: 562px; object-fit: contain; background: #000;"
+               onerror="this.parentElement.innerHTML='<div style=\'padding: 2rem; text-align: center; color: #ff6b6b;\'>❌ 视频加载失败<br><br><a href=\'https://raw.githubusercontent.com/hhhh124hhhh/hhhh124hhhh.github.io/master/achievement-system/achievement-system-intro.mp4\' target=\'_blank\' style=\'color: #667eea;\'>点击下载视频</a></div>'"
+               onloadedmetadata="console.log('Video loaded successfully, duration:', this.duration)">
             <source src="https://raw.githubusercontent.com/hhhh124hhhh/hhhh124hhhh.github.io/master/achievement-system/achievement-system-intro.mp4" type="video/mp4">
             您的浏览器不支持视频播放
         </video>
