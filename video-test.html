@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成就系统视频测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: #0a0e17;
+            color: #a0aec0;
+        }
+        h1 {
+            color: #667eea;
+        }
+        .video-container {
+            margin: 2rem 0;
+            border: 2px solid #667eea;
+            border-radius: 1rem;
+            overflow: hidden;
+            background: #000;
+        }
+        video {
+            width: 100%;
+            display: block;
+        }
+        .test-link {
+            background: #667eea;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+        .test-link:hover {
+            background: #764ba2;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎬 成就系统视频测试</h1>
+
+    <h2>方法 1：直接链接到 GitHub</h2>
+    <div class="video-container">
+        <video autoplay muted loop playsinline controls>
+            <source src="https://raw.githubusercontent.com/hhhh124hhhh/hhhh124hhhh.github.io/master/achievement-system/achievement-system-intro.mp4" type="video/mp4">
+            您的浏览器不支持视频播放
+        </video>
+    </div>
+    <a href="https://raw.githubusercontent.com/hhhh124hhhh/hhhh124hhhh.github.io/master/achievement-system/achievement-system-intro.mp4" target="_blank" class="test-link">直接下载视频</a>
+
+    <hr style="border-color: #333; margin: 2rem 0;">
+
+    <h2>方法 2：相对路径（Cloudflare Pages）</h2>
+    <div class="video-container">
+        <video autoplay muted loop playsinline controls>
+            <source src="./achievement-system-intro.mp4" type="video/mp4">
+            您的浏览器不支持视频播放
+        </video>
+    </div>
+    <a href="./achievement-system-intro.mp4" target="_blank" class="test-link">下载视频</a>
+
+    <hr style="border-color: #333; margin: 2rem 0;">
+
+    <h2>诊断信息</h2>
+    <ul>
+        <li>视频文件大小：1.3MB</li>
+        <li>视频时长：12 秒</li>
+        <li>分辨率：1080p</li>
+        <li>帧率：30fps</li>
+    </ul>
+
+    <p style="color: #764ba2;">
+        <strong>提示：</strong>如果方法 2 无法播放，请使用方法 1（直接链接到 GitHub）。
+    </p>
+</body>
+</html>
