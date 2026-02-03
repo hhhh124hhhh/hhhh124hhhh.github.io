@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎬 视频提示词生成器 - 测试页面</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #f9fafb;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .controls {
+            background: rgba(0,0,0,0.3);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #f9fafb;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 0.5rem;
+            background: rgba(0,0,0,0.5);
+            color: #f9fafb;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.6);
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.2);
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-btn {
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            color: #f9fafb;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .category-btn:hover {
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-2px);
+        }
+
+        .category-btn.active {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.6);
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.2);
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 0.5rem;
+            padding: 1rem 2rem;
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+
+        .results {
+            margin-top: 2rem;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .results-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .copy-all-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            color: #f9fafb;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-all-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .prompt-list {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .prompt-card {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .prompt-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .prompt-category {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2rem;
+            font-size: 0.75rem;
+        }
+
+        .prompt-style {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #f9fafb;
+        }
+
+        .prompt-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .copy-btn {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 0.375rem;
+            padding: 0.5rem 1rem;
+            color: #f9fafb;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .copy-btn.copied {
+            background: rgba(34, 197, 94, 0.3);
+            border-color: rgba(34, 197, 94, 0.6);
+        }
+
+        .status-message {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 0.5rem;
+            padding: 1rem 2rem;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .status-message.success {
+            background: rgba(34, 197, 94, 0.9);
+            border-color: rgba(34, 197, 94, 0.6);
+        }
+
+        .status-message.error {
+            background: rgba(239, 68, 68, 0.9);
+            border-color: rgba(239, 68, 68, 0.6);
+        }
+
+        .status-message.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+
+        footer a {
+            color: #f9fafb;
+            text-decoration: underline;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .prompt-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎬 视频提示词生成器</h1>
+            <p class="subtitle">AI 驱动的高质量视频提示词生成工具</p>
+        </header>
+
+        <section class="controls">
+            <div class="control-group">
+                <label for="topic">📝 主题 / Topic</label>
+                <input
+                    type="text"
+                    id="topic"
+                    placeholder="例如：猫咪玩耍、产品展示、都市生活..."
+                    value="猫咪玩耍"
+                >
+            </div>
+
+            <div class="control-group">
+                <label>🎨 选择分类 / Select Categories</label>
+                <div class="category-grid">
+                    <button class="category-btn" data-category="landscape">🌄 风景</button>
+                    <button class="category-btn" data-category="product">📦 产品</button>
+                    <button class="category-btn" data-category="tech">🤖 科技</button>
+                    <button class="category-btn active" data-category="all">🎬 全部</button>
+                    <button class="category-btn" data-category="emotional">💖 情感</button>
+                    <button class="category-btn" data-category="urban">🏙 都市</button>
+                    <button class="category-btn" data-category="food">🍜 美食</button>
+                    <button class="category-btn" data-category="sports">🏃 运动</button>
+                    <button class="category-btn" data-category="ancient">🏛️ 古风</button>
+                    <button class="category-btn" data-category="anime">🎨 动漫</button>
+                    <button class="category-btn" data-category="abstract">🎭 抽象</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="enhancements">✨ 增强效果 / Enhancements (可选)</label>
+                <textarea
+                    id="enhancements"
+                    rows="3"
+                    placeholder="例如：golden hour lighting, slow zoom camera, cinematic mood, 4K quality"
+                ></textarea>
+            </div>
+
+            <button class="generate-btn" id="generateBtn">🚀 生成提示词 / Generate Prompts</button>
+        </section>
+
+        <section class="results" id="resultsSection">
+            <div class="results-header">
+                <h2 class="results-title">📊 生成结果 / Results</h2>
+                <button class="copy-all-btn" id="copyAllBtn">📋 复制全部</button>
+            </div>
+
+            <div class="prompt-list" id="promptList">
+                <!-- 生成的提示词将显示在这里 -->
+                <p style="grid-column: 1 / -1; text-align: center; opacity: 0.7; padding: 3rem;">
+                    点击"生成提示词"按钮开始生成...
+                </p>
+            </div>
+        </section>
+
+        <div class="status-message hidden" id="statusMessage"></div>
+
+        <footer>
+            <p>集成 <strong>Grok Imagine API</strong> (xAI) | 10+ 种视频风格 | 提示词增强系统</p>
+            <p style="margin-top: 0.5rem;">Made with ❤️ by <a href="https://github.com/hhhh124hhhh">Momo</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // 预设提示词模板
+        const promptTemplates = {
+            landscape: [
+                { style: "Serene Mountain Sunrise", emoji: "🏔️", prompt: "Cinematic video of {topic} at sunrise over misty mountains, golden hour light breaking through clouds, slow camera movement revealing scenic panorama, dramatic lighting with soft shadows, 4K quality, peaceful and majestic atmosphere" },
+                { style: "Ocean Sunset Drone Shot", emoji: "🌊", prompt: "Aerial drone shot of {topic} by the ocean at sunset, golden and orange hues reflecting on water, slow descent toward coastline, cinematic composition, romantic and peaceful mood, seagulls flying in background" },
+                { style: "Forest Canopy Walkthrough", emoji: "🌲", prompt: "First-person camera walking through {topic} in lush forest, sunlight filtering through green canopy, dappled light patterns on path, immersive and serene atmosphere, gentle ambient sound, natural and organic feel" },
+                { style: "Urban City Timelapse", emoji: "🏙", prompt: "Timelapse video of {topic} in modern city center, day-to-night transition, buildings lighting up, cars flowing like light rivers, dynamic energy, vibrant urban atmosphere, cyberpunk aesthetic" },
+                { style: "Seasonal Cherry Blossom", emoji: "🌸", prompt: "{topic} surrounded by falling cherry blossom petals, gentle spring breeze, soft pink and white flowers, romantic and dreamy atmosphere, slow motion capture of petals dancing in air" }
+            ],
+            product: [
+                { style: "Cinematic Product Reveal", emoji: "📦", prompt: "Slow cinematic reveal of {topic} with dramatic lighting, rotating 360-degree showcase, sleek black background, premium product photography aesthetic, professional and sophisticated presentation" },
+                { style: "Lifestyle Product Usage", emoji: "📱", prompt: "{topic} in authentic lifestyle setting, person using product naturally, candid shot, warm natural lighting, relatable and aspirational atmosphere, product in focus with soft background blur" },
+                { style: "E-commerce Flat Lay", emoji: "📦", prompt: "Flat lay video of {topic} on clean marble surface, subtle floating motion, minimal props, soft shadows, premium product photography, elegant and sophisticated aesthetic" },
+                { style: "Exploded View Animation", emoji: "🔧", prompt: "{topic} in exploded 3D view, components floating and assembling, clean white background, technical and informative, smooth animation, product understanding and assembly process" },
+                { style: "Unboxing Experience", emoji: "📦", prompt: "First-person unboxing experience of {topic}, box opening with excitement, product reveal, packaging details, premium feel, celebratory and joyful atmosphere" }
+            ],
+            tech: [
+                { style: "Cyberpunk Neon City", emoji: "🌃", prompt: "{topic} in cyberpunk cityscape at night, neon lights reflecting on wet streets, holographic displays, flying cars in background, futuristic and edgy atmosphere, Blade Runner aesthetic" },
+                { style: "AI Digital Interface", emoji: "🤖", prompt: "{topic} with floating AI interface elements, holographic data visualizations, neural network patterns, futuristic tech aesthetic, blue and cyan lighting, innovative and cutting-edge" },
+                { style: "Space Station View", emoji: "🚀", prompt: "{topic} aboard space station, Earth visible through window, zero gravity floating, stars and nebula in background, awe-inspiring and cosmic, cinematic sci-fi aesthetic" },
+                { style: "Digital Glitch Art", emoji: "📺", prompt: "{topic} with digital glitch effects, pixelated distortions, RGB color splits, cyberpunk aesthetic, tech-forward design, edgy and contemporary" },
+                { style: "Futuristic Laboratory", emoji: "🔬", prompt: "{topic} in advanced laboratory setting, holographic displays, robotic arms, clean white and blue color scheme, innovative and scientific, high-tech research aesthetic" }
+            ],
+            emotional: [
+                { style: "Romantic Moonlight Scene", emoji: "🌙", prompt: "{topic} under moonlight, romantic and intimate, soft silver lighting, emotional connection, slow camera movements, love story atmosphere" },
+                { style: "Nostalgic Vintage Film", emoji: "🎞", prompt: "{topic} in vintage film aesthetic, sepia tones, warm nostalgic feeling, memory and reminiscence, classic and timeless" },
+                { style: "Inspiring Journey", emoji: "🌟", prompt: "{topic} representing journey and growth, dramatic landscape transition, hopeful music, motivational energy, rising from challenge to triumph" },
+                { style: "Bittersweet Goodbye", emoji: "💔", prompt: "{topic} in bittersweet farewell scene, emotional and touching, mix of sadness and hope, intimate close-up, authentic feeling" },
+                { style: "Celebration and Joy", emoji: "🎉", prompt: "{topic} in moment of pure celebration, confetti and joy, bright happy colors, genuine happiness and excitement" }
+            ],
+            urban: [
+                { style: "Street Cafe Morning", emoji: "☕", prompt: "{topic} in bustling street cafe scene, morning sunlight, people enjoying coffee, vibrant urban energy, authentic and relatable, cozy and welcoming atmosphere" },
+                { style: "Modern Office Workspace", emoji: "💼", prompt: "{topic} in stylish modern office, clean desk setup with plants, productivity and focus, natural lighting, contemporary work-from-home aesthetic" },
+                { style: "Night City Walking", emoji: "🌃", prompt: "{topic} walking through city at night, neon lights reflecting, urban exploration, cinematic composition, mysterious and alluring" },
+                { style: "Subway Commute", emoji: "🚇", prompt: "{topic} in subway commute scene, underground lighting, authentic daily life, movement and energy, urban realism" },
+                { style: "Rooftop City View", emoji: "🌆", prompt: "{topic} with city skyline view, golden hour sunset, urban lifestyle, aspirational and freeing, epic and cinematic" }
+            ],
+            food: [
+                { style: "Food Preparation Close-up", emoji: "🍽", prompt: "Close-up video of {topic} preparation, fresh ingredients, sharp knife movements, appetizing food photography, mouth-watering detail, professional culinary aesthetic" },
+                { style: "Cooking Process", emoji: "👨‍🍳", prompt: "{topic} cooking in modern kitchen, steam rising, sizzling sounds, chef preparing with expertise, appetizing and inviting, culinary expertise showcase" },
+                { style: "Plating Presentation", emoji: "🍴", prompt: "Elegant plating of {topic} on white plate, artistic arrangement, garnish details, fine dining aesthetic, professional and sophisticated" },
+                { style: "Farm to Table", emoji: "🌱", prompt: "{topic} from farm to table journey, fresh ingredients, natural setting, organic and sustainable, authentic and wholesome" },
+                { style: "Food Porn Aesthetic", emoji: "📸", prompt: "Slow-motion video of {topic} with dramatic lighting, glistening textures, extreme close-up, food porn aesthetic, irresistible and appetizing" }
+            ],
+            sports: [
+                { style: "Dynamic Sports Action", emoji: "⚽", prompt: "{topic} in dynamic sports action, fast movement, intense energy, competitive spirit, slow-motion capture of key moments, athletic excellence" },
+                { style: "Gym Workout Routine", emoji: "🏋", prompt: "{topic} in modern gym setting, dedicated workout routine, fitness motivation, energy and determination, healthy lifestyle promotion" },
+                { style: "Outdoor Adventure", emoji: "🏔", prompt: "{topic} in outdoor adventure setting, nature background, active lifestyle, freedom and exploration, inspiring and energetic" },
+                { style: "Yoga and Meditation", emoji: "🧘", prompt: "{topic} in peaceful yoga or meditation scene, calm and centered, natural lighting, mindfulness and wellness, serene atmosphere" },
+                { style: "Team Spirit", emoji: "🏆", prompt: "{topic} capturing team spirit and camaraderie, group celebration, unity and collaboration, uplifting and motivational" }
+            ],
+            ancient: [
+                { style: "Traditional Chinese Garden", emoji: "🏯", prompt: "{topic} in traditional Chinese garden, ancient architecture, koi pond, cherry blossoms, serene and timeless, cultural authenticity" },
+                { style: "Hanfu Costume Showcase", emoji: "👘", prompt: "{topic} wearing elegant Hanfu costume, flowing fabric, traditional Chinese setting, cultural heritage, graceful and poetic" },
+                { style: "Ink Wash Painting Style", emoji: "🖌️", prompt: "{topic} in traditional Chinese ink wash painting aesthetic, brush stroke textures, monochromatic with color accents, artistic and cultural" },
+                { style: "Ancient Architecture", emoji: "🏛️", prompt: "{topic} with ancient Chinese architecture background, traditional patterns, cultural symbolism, historical and majestic" },
+                { style: "Wuxia Martial Arts", emoji: "⚔", prompt: "{topic} in wuxia martial arts scene, flowing movements, traditional Chinese setting, heroic and cinematic, ancient martial arts aesthetic" }
+            ],
+            anime: [
+                { style: "Anime Opening Style", emoji: "🎬", prompt: "{topic} in anime opening sequence style, vibrant colors, dynamic action poses, speed lines, anime aesthetic, energetic and stylized" },
+                { style: "Kawaii Chibi Character", emoji: "😊", prompt: "{topic} as cute kawaii chibi character, big expressive eyes, soft rounded shapes, adorable and appealing, playful and fun" },
+                { style: "Fantasy School Life", emoji: "🏫", prompt: "{topic} in anime fantasy school life setting, colorful classrooms, magical elements, slice of life with fantasy twist" },
+                { style: "Mecha Robot Battle", emoji: "🤖", prompt: "{topic} in epic mecha robot battle scene, glowing energy beams, dramatic explosions, sci-fi anime aesthetic, intense and spectacular" },
+                { style: "Magical Girl Transformation", emoji: "✨", prompt: "{topic} in magical girl transformation scene, sparkles and light effects, flowing ribbons, magical and whimsical, anime aesthetic" }
+            ],
+            abstract: [
+                { style: "Liquid Abstract Art", emoji: "💧", prompt: "{topic} morphing in liquid abstract art, flowing colors, organic shapes, dreamy and surreal, artistic and experimental" },
+                { style: "Geometric Patterns", emoji: "🔷", prompt: "{topic} with geometric pattern overlay, repeating shapes, clean lines, mathematical beauty, modern and minimalist" },
+                { style: "Particle Explosion", emoji: "💥", prompt: "{topic} with particle explosion effects, glowing points, burst of energy, dynamic and vibrant, futuristic and stunning" },
+                { style: "Ink in Water", emoji: "🖌️", prompt: "{topic} with ink dropping into water, swirling patterns, organic diffusion, artistic and meditative, black and white aesthetic" },
+                { style: "Fractal Zoom", emoji: "🌀", prompt: "{topic} zooming into fractal patterns, infinite detail, mathematical beauty, psychedelic and mesmerizing, trippy and abstract" }
+            ]
+        };
+
+        // DOM 元素
+        const topicInput = document.getElementById('topic');
+        const enhancementsInput = document.getElementById('enhancements');
+        const generateBtn = document.getElementById('generateBtn');
+        const promptList = document.getElementById('promptList');
+        const statusMessage = document.getElementById('statusMessage');
+        const copyAllBtn = document.getElementById('copyAllBtn');
+        const categoryBtns = document.querySelectorAll('.category-btn');
+
+        let selectedCategories = ['all'];
+        let generatedPrompts = [];
+
+        // 显示状态消息
+        function showStatus(message, type = 'info') {
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message ${type}`;
+
+            if (type === 'success') {
+                statusMessage.classList.remove('hidden');
+                setTimeout(() => {
+                    statusMessage.classList.add('hidden');
+                }, 3000);
+            } else if (type === 'error') {
+                statusMessage.classList.remove('hidden');
+                setTimeout(() => {
+                    statusMessage.classList.add('hidden');
+                }, 5000);
+            }
+        }
+
+        // 生成提示词
+        function generatePrompts() {
+            const topic = topicInput.value.trim();
+            if (!topic) {
+                showStatus('❌ 请输入主题！', 'error');
+                return;
+            }
+
+            const enhancements = enhancementsInput.value.trim();
+
+            // 清空结果
+            promptList.innerHTML = '';
+            generatedPrompts = [];
+
+            // 获取要使用的分类
+            let categoriesToUse = selectedCategories;
+            if (categoriesToUse.includes('all')) {
+                categoriesToUse = Object.keys(promptTemplates);
+            }
+
+            // 生成提示词
+            categoriesToUse.forEach(category => {
+                const templates = promptTemplates[category];
+                templates.forEach(template => {
+                    let prompt = template.prompt.replace(/{topic}/g, topic);
+
+                    // 添加增强效果
+                    if (enhancements) {
+                        prompt += `, ${enhancements}`;
+                    }
+
+                    generatedPrompts.push({
+                        category,
+                        style: template.style,
+                        emoji: template.emoji,
+                        prompt
+                    });
+                });
+            });
+
+            // 渲染结果
+            renderPrompts();
+
+            showStatus(`✅ 成功生成 ${generatedPrompts.length} 个提示词！`, 'success');
+        }
+
+        // 渲染提示词
+        function renderPrompts() {
+            promptList.innerHTML = '';
+
+            generatedPrompts.forEach((prompt, index) => {
+                const card = document.createElement('div');
+                card.className = 'prompt-card';
+
+                card.innerHTML = `
+                    <div class="prompt-header">
+                        <span class="prompt-category">${prompt.category}</span>
+                        <span class="prompt-style">${prompt.emoji} ${prompt.style}</span>
+                    </div>
+                    <div class="prompt-text">${prompt.prompt}</div>
+                    <button class="copy-btn" onclick="copyPrompt(${index})">📋 复制</button>
+                `;
+
+                promptList.appendChild(card);
+            });
+        }
+
+        // 复制单个提示词
+        window.copyPrompt = function(index) {
+            const prompt = generatedPrompts[index];
+            navigator.clipboard.writeText(prompt.prompt).then(() => {
+                showStatus(`✅ 已复制：${prompt.style}`, 'success');
+
+                // 更新按钮状态
+                const copyBtns = document.querySelectorAll('.copy-btn');
+                copyBtns[index].classList.add('copied');
+                copyBtns[index].textContent = '✅ 已复制';
+
+                setTimeout(() => {
+                    copyBtns[index].classList.remove('copied');
+                    copyBtns[index].textContent = '📋 复制';
+                }, 2000);
+            }).catch(err => {
+                showStatus('❌ 复制失败', 'error');
+            });
+        };
+
+        // 复制全部提示词
+        function copyAllPrompts() {
+            const allPrompts = generatedPrompts.map(p => `[${p.style}] ${p.prompt}`).join('\n\n');
+
+            navigator.clipboard.writeText(allPrompts).then(() => {
+                showStatus('✅ 已复制全部提示词！', 'success');
+
+                copyAllBtn.textContent = '✅ 已复制';
+                setTimeout(() => {
+                    copyAllBtn.textContent = '📋 复制全部';
+                }, 2000);
+            }).catch(err => {
+                showStatus('❌ 复制失败', 'error');
+            });
+        }
+
+        // 分类按钮点击
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const category = this.dataset.category;
+
+                if (category === 'all') {
+                    // 全部选择，清除其他
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedCategories = ['all'];
+                } else {
+                    // 移除"全部"选择
+                    const allBtn = document.querySelector('[data-category="all"]');
+                    allBtn.classList.remove('active');
+
+                    if (this.classList.contains('active')) {
+                        // 取消选择
+                        this.classList.remove('active');
+                        selectedCategories = selectedCategories.filter(c => c !== category);
+
+                        if (selectedCategories.length === 0) {
+                            allBtn.classList.add('active');
+                            selectedCategories = ['all'];
+                        }
+                    } else {
+                        // 添加选择
+                        this.classList.add('active');
+                        if (!selectedCategories.includes(category)) {
+                            selectedCategories.push(category);
+                        }
+                    }
+                }
+
+                console.log('Selected categories:', selectedCategories);
+            });
+        });
+
+        // 生成按钮点击
+        generateBtn.addEventListener('click', generatePrompts);
+
+        // 复制全部按钮点击
+        copyAllBtn.addEventListener('click', copyAllPrompts);
+
+        // 回车键生成
+        topicInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generatePrompts();
+            }
+        });
+
+        // 页面加载后自动生成一次
+        window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                generatePrompts();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
