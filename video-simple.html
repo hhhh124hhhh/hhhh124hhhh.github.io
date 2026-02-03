@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>简单视频测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #fff;
+            color: #333;
+        }
+        h1 { color: #000; margin-bottom: 20px; }
+        .video-box {
+            border: 3px solid #000;
+            margin: 20px 0;
+            padding: 10px;
+        }
+        video {
+            width: 100%;
+            max-width: 800px;
+            display: block;
+            background: #000;
+        }
+        .status {
+            margin: 10px 0;
+            font-weight: bold;
+            padding: 10px;
+        }
+        .loading { background: #fff3cd; color: #856404; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>简单视频测试</h1>
+
+    <p>如果你能看到下面有黑色的视频框，说明 HTML 渲染成功了。</p>
+
+    <div class="video-box">
+        <video id="myVideo" controls preload="auto" style="height: 450px; background: #000;"
+              onloadeddata="
+                  document.getElementById('status').innerHTML = '✅ 视频加载成功！时长：' + this.duration + '秒';
+                  document.getElementById('status').className = 'status success';
+              "
+              onerror="
+                  document.getElementById('status').innerHTML = '❌ 视频加载失败！';
+                  document.getElementById('status').className = 'status error';
+                  console.error('Video error:', this.error);
+              ">
+            <source src="https://raw.githubusercontent.com/hhhh124hhhh/hhhh124hhhh.github.io/master/achievement-system/achievement-system-intro.mp4" type="video/mp4">
+            <p>你的浏览器不支持视频播放</p>
+        </video>
+    </div>
+
+    <div id="status" class="status loading">⏳ 等待视频加载...</div>
+
+    <hr>
+
+    <h2>备用方案：直接下载视频</h2>
+    <p><a href="https://raw.githubusercontent.com/hhhh124hhhh/hhhh124hhhh.github.io/master/achievement-system/achievement-system-intro.mp4"
+           target="_blank"
+           style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+        📥 点击下载视频文件
+    </a></p>
+
+    <hr>
+
+    <h2>诊断信息</h2>
+    <ul>
+        <li>页面加载时间：<span id="loadTime"></span></li>
+        <li>视频标签是否存在：<span id="videoTagExists"></span></li>
+        <li>浏览器：<span id="browserInfo"></span></li>
+    </ul>
+
+    <script>
+        document.getElementById('loadTime').textContent = new Date().toLocaleTimeString();
+        document.getElementById('videoTagExists').textContent = document.getElementById('myVideo') ? '✅ 是' : '❌ 否';
+        document.getElementById('browserInfo').textContent = navigator.userAgent;
+
+        // 每 2 秒检查一次视频状态
+        setInterval(function() {
+            const video = document.getElementById('myVideo');
+            const status = document.getElementById('status');
+
+            if (video.error) {
+                status.innerHTML = '❌ 视频加载失败！<br>错误代码: ' + video.error.code + '<br>错误消息: ' + video.error.message;
+                status.className = 'status error';
+            } else if (video.readyState >= 3) {
+                // HAVE_FUTURE_DATA 或更高
+                status.innerHTML = '✅ 视频已加载！可以播放。<br>时长: ' + video.duration + '秒<br>当前时间: ' + video.currentTime + '秒<br>播放状态: ' + (video.paused ? '暂停' : '播放中');
+                status.className = 'status success';
+            } else if (video.readyState === 0) {
+                // HAVE_NOTHING
+                status.innerHTML = '⏳ 等待视频加载...<br>readyState: ' + video.readyState;
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
