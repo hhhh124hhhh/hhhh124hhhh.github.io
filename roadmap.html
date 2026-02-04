@@ -3,25 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>与 Clawdbot 一起成长 | jack</title>
+    <title>成长轨迹 | jack & Clawdbot</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0d0d0d;
-            --bg-secondary: #1a1a1a;
-            --bg-tertiary: #262626;
-            --accent-primary: #ff6b35;
-            --accent-secondary: #f7c59f;
-            --accent-glow: rgba(255, 107, 53, 0.2);
-            --text-primary: #f5f5f5;
-            --text-secondary: #a3a3a3;
-            --text-muted: #737373;
-            --border-color: #404040;
-            --gradient-1: linear-gradient(135deg, #ff6b35 0%, #f7c59f 100%);
-            --gradient-2: linear-gradient(135deg, #f7c59f 0%, #ffd700 100%);
-            --gradient-text: linear-gradient(135deg, #ff6b35, #f7c59f, #ffd700);
+            --bg-primary: #000000;
+            --bg-secondary: #0a0a0a;
+            --bg-tertiary: #141414;
+            --accent-primary: #00ff88;
+            --accent-secondary: #00f0ff;
+            --accent-tertiary: #ff00ff;
+            --accent-quaternary: #ffaa00;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #606060;
+            --border-color: #2a2a2a;
+            --gradient-neon: linear-gradient(135deg, #00ff88, #00f0ff, #ff00ff, #ffaa00);
+            --gradient-cyber: linear-gradient(135deg, #00ff88, #00f0ff);
+            --gradient-matrix: linear-gradient(135deg, #00f0ff, #ff00ff);
+            --glow-primary: 0 0 20px rgba(0, 255, 136, 0.5);
+            --glow-secondary: 0 0 20px rgba(0, 240, 255, 0.5);
+            --glow-tertiary: 0 0 20px rgba(255, 0, 255, 0.5);
         }
 
         * {
@@ -35,19 +39,22 @@
         }
 
         body {
-            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.7;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        .display {
-            font-family: 'Playfair Display', Georgia, serif;
+        .cyber {
+            font-family: 'Orbitron', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .mono {
-            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-family: 'JetBrains Mono', monospace;
             font-variant-ligatures: common-ligatures;
         }
 
@@ -59,42 +66,125 @@
             width: 100%;
             height: 100%;
             background-image:
-                linear-gradient(rgba(255, 107, 53, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 107, 53, 0.02) 1px, transparent 1px);
-            background-size: 40px 40px;
-            animation: gridMove 30s linear infinite;
-            z-index: -2;
+                linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            z-index: -3;
             pointer-events: none;
         }
 
         @keyframes gridMove {
             0% { transform: translate(0, 0); }
-            100% { transform: translate(40px, 40px); }
+            100% { transform: translate(50px, 50px); }
         }
 
-        /* Noise overlay */
-        .noise-overlay {
+        /* Particle canvas */
+        #particles {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: 0.03;
-            z-index: -1;
+            z-index: -2;
             pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* Scroll progress bar */
+        /* Glowing orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.15;
+            animation: orbFloat 20s ease-in-out infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--accent-primary);
+            top: -200px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--accent-secondary);
+            bottom: 20%;
+            left: -150px;
+            animation-delay: -7s;
+        }
+
+        .orb-3 {
+            width: 350px;
+            height: 350px;
+            background: var(--accent-tertiary);
+            top: 50%;
+            right: -175px;
+            animation-delay: -14s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(-30px, -20px) scale(1.1);
+            }
+        }
+
+        /* Scan lines effect */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.1) 0px,
+                rgba(0, 0, 0, 0.1) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.3;
+        }
+
+        /* Vignette */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.4) 100%);
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Scroll progress */
         #scroll-progress {
             position: fixed;
             top: 0;
             left: 0;
             width: 0%;
-            height: 3px;
-            background: var(--gradient-1);
-            z-index: 9999;
-            transition: width 0.1s ease;
+            height: 4px;
+            background: var(--gradient-neon);
+            box-shadow: var(--glow-primary);
+            z-index: 10000;
+            transition: width 0.05s ease;
+            animation: progressBar 2s ease infinite;
+        }
+
+        @keyframes progressBar {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
         }
 
         /* Navigation */
@@ -107,10 +197,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(13, 13, 13, 0.9);
-            backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(30px);
             border-bottom: 1px solid var(--border-color);
-            z-index: 1000;
+            z-index: 1001;
+            box-shadow: 0 2px 20px rgba(0, 255, 136, 0.1);
         }
 
         .nav-left {
@@ -120,14 +211,20 @@
         }
 
         .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: var(--gradient-text);
+            font-family: 'Orbitron', monospace;
+            font-size: 1.25rem;
+            font-weight: 900;
+            background: var(--gradient-cyber);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: -0.5px;
+            text-shadow: none;
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes logoGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.5)); }
+            50% { filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.8)); }
         }
 
         .back-link {
@@ -137,16 +234,16 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
         }
 
         .back-link:hover {
             color: var(--accent-primary);
-        }
-
-        .back-link .mono {
-            font-size: 0.75rem;
-            opacity: 0.7;
+            border-color: var(--accent-primary);
+            box-shadow: var(--glow-primary);
         }
 
         /* Hero section */
@@ -162,113 +259,220 @@
         }
 
         .hero h1 {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            line-height: 1.1;
-            letter-spacing: -1px;
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 900;
+            margin-bottom: 2rem;
+            line-height: 1;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            animation: heroGlow 4s ease-in-out infinite;
         }
 
         .hero h1 span {
             display: block;
-            animation: fadeIn 1s ease-out 0.3s backwards;
+            animation: slideIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .hero h1 span:nth-child(1) { animation-delay: 0.2s; }
+        .hero h1 span:nth-child(2) { animation-delay: 0.4s; }
+        .hero h1 span:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes heroGlow {
+            0%, 100% {
+                text-shadow:
+                    0 0 20px rgba(0, 255, 136, 0.8),
+                    0 0 40px rgba(0, 240, 255, 0.4);
+            }
+            50% {
+                text-shadow:
+                    0 0 30px rgba(0, 240, 255, 0.8),
+                    0 0 60px rgba(255, 0, 255, 0.4);
+            }
         }
 
         .hero .subtitle {
-            font-size: 1.125rem;
+            font-size: 1.25rem;
             color: var(--text-secondary);
-            max-width: 600px;
+            max-width: 700px;
             margin-bottom: 3rem;
             line-height: 1.8;
             font-weight: 300;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1s forwards;
         }
 
-        .hero-meta {
+        .hero-stats {
             display: flex;
-            align-items: center;
-            gap: 2rem;
-            font-size: 0.875rem;
-            color: var(--text-muted);
+            gap: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        .hero-meta .mono {
-            opacity: 0.7;
+        .hero-stat {
+            text-align: center;
+            padding: 2rem 3rem;
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-stat:hover {
+            transform: translateY(-10px) scale(1.05);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.4);
+        }
+
+        .hero-stat-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            font-weight: 900;
+            background: var(--gradient-neon);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         /* Stats section */
         .stats {
-            padding: 6rem 2rem;
-            max-width: 1200px;
+            padding: 8rem 2rem;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
         }
 
         .stat-card {
-            background: var(--bg-secondary);
+            background: rgba(20, 20, 20, 0.95);
             border: 1px solid var(--border-color);
-            border-radius: 0.75rem;
-            padding: 2rem;
+            border-radius: 1rem;
+            padding: 3rem 2rem;
             text-align: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-neon);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .stat-card:hover::before {
+            transform: translateX(0);
         }
 
         .stat-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-15px) scale(1.03);
             border-color: var(--accent-primary);
-            box-shadow: 0 0 30px var(--accent-glow);
+            box-shadow:
+                0 0 50px rgba(0, 255, 136, 0.3),
+                inset 0 0 50px rgba(0, 255, 136, 0.05);
         }
 
         .stat-value {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 3rem;
-            font-weight: 700;
-            background: var(--gradient-1);
+            font-family: 'Orbitron', monospace;
+            font-size: 4rem;
+            font-weight: 900;
+            background: var(--gradient-neon);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 0.75rem;
-            line-height: 1;
+            margin-bottom: 1rem;
+            animation: numberGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes numberGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.5)); }
+            50% { filter: drop-shadow(0 0 40px rgba(0, 240, 255, 0.8)); }
         }
 
         .stat-label {
             color: var(--text-secondary);
-            font-size: 0.875rem;
-            font-weight: 500;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         /* Timeline section */
         .timeline-section {
-            padding: 8rem 2rem;
-            max-width: 1000px;
+            padding: 10rem 2rem;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
         .timeline-header {
-            margin-bottom: 4rem;
+            text-align: center;
+            margin-bottom: 6rem;
         }
 
         .timeline-header h2 {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 700;
-            margin-bottom: 1rem;
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: headerGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes headerGlow {
+            0%, 100% {
+                text-shadow:
+                    0 0 20px rgba(0, 255, 136, 0.5),
+                    0 0 40px rgba(0, 240, 255, 0.3);
+            }
+            50% {
+                text-shadow:
+                    0 0 30px rgba(0, 240, 255, 0.5),
+                    0 0 60px rgba(255, 0, 255, 0.3);
+            }
         }
 
         .timeline-header p {
             color: var(--text-secondary);
-            font-size: 1rem;
+            font-size: 1.125rem;
             line-height: 1.8;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         .timeline {
@@ -281,23 +485,34 @@
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            width: 3px;
+            width: 4px;
             height: 100%;
-            background: linear-gradient(to bottom,
-                var(--bg-secondary) 0%,
-                var(--accent-primary) 10%,
-                var(--accent-secondary) 50%,
-                var(--accent-primary) 90%,
-                var(--bg-secondary) 100%
-            );
-            border-radius: 1.5px;
+            background: var(--gradient-neon);
+            border-radius: 2px;
+            box-shadow:
+                0 0 30px rgba(0, 255, 136, 0.5),
+                0 0 60px rgba(0, 240, 255, 0.3);
+            animation: timelineGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes timelineGlow {
+            0%, 100% {
+                box-shadow:
+                    0 0 30px rgba(0, 255, 136, 0.5),
+                    0 0 60px rgba(0, 240, 255, 0.3);
+            }
+            50% {
+                box-shadow:
+                    0 0 40px rgba(0, 240, 255, 0.5),
+                    0 0 80px rgba(255, 0, 255, 0.3);
+            }
         }
 
         .milestone {
             position: relative;
-            margin-bottom: 5rem;
+            margin-bottom: 6rem;
             opacity: 0;
-            transform: translateY(40px);
+            transform: translateY(60px);
             transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -307,12 +522,12 @@
         }
 
         .milestone:nth-child(odd) {
-            padding-right: calc(50% + 2rem);
+            padding-right: calc(50% + 3rem);
             text-align: right;
         }
 
         .milestone:nth-child(even) {
-            padding-left: calc(50% + 2rem);
+            padding-left: calc(50% + 3rem);
             text-align: left;
         }
 
@@ -320,60 +535,107 @@
             content: '';
             position: absolute;
             left: 50%;
-            top: 1.5rem;
+            top: 2rem;
             transform: translateX(-50%);
-            width: 16px;
-            height: 16px;
+            width: 24px;
+            height: 24px;
             background: var(--bg-primary);
-            border: 3px solid var(--accent-primary);
+            border: 4px solid var(--accent-primary);
             border-radius: 50%;
-            z-index: 1;
-            transition: all 0.3s ease;
+            z-index: 2;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+            animation: nodePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes nodePulse {
+            0%, 100% {
+                box-shadow:
+                    0 0 30px rgba(0, 255, 136, 0.6),
+                    inset 0 0 30px rgba(0, 255, 136, 0.2);
+            }
+            50% {
+                box-shadow:
+                    0 0 50px rgba(0, 240, 255, 0.8),
+                    inset 0 0 50px rgba(0, 240, 255, 0.3);
+            }
         }
 
         .milestone:hover::before {
             background: var(--accent-primary);
-            box-shadow: 0 0 20px var(--accent-glow);
+            transform: translateX(-50%) scale(1.3);
+        }
+
+        .milestone-content {
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .milestone-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-neon);
+            opacity: 0.5;
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .milestone:hover .milestone-content {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--accent-primary);
+            box-shadow:
+                0 0 60px rgba(0, 255, 136, 0.4),
+                inset 0 0 60px rgba(0, 255, 136, 0.05);
+        }
+
+        .milestone:hover .milestone-content::before {
+            transform: translateX(0);
+            opacity: 1;
         }
 
         .milestone-date {
             display: inline-block;
-            background: var(--bg-tertiary);
-            color: var(--text-secondary);
-            padding: 0.5rem 1rem;
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--accent-primary);
+            padding: 0.5rem 1.25rem;
+            border: 1px solid var(--accent-primary);
             border-radius: 0.5rem;
             font-size: 0.8125rem;
-            margin-bottom: 1rem;
-            font-weight: 500;
-            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
         }
 
-        .milestone-date .mono {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-        }
-
-        .milestone-content {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 0.75rem;
-            padding: 2rem;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .milestone:hover .milestone-content {
-            transform: translateY(-8px);
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 30px var(--accent-glow);
+        .milestone:hover .milestone-date {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            box-shadow: var(--glow-primary);
         }
 
         .milestone-title {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 1.75rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 0.75rem;
-            line-height: 1.2;
-            color: var(--text-primary);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: var(--gradient-neon);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .milestone-description {
@@ -381,11 +643,12 @@
             font-size: 1rem;
             line-height: 1.8;
             margin-bottom: 1.5rem;
+            font-weight: 300;
         }
 
         .milestone-tags {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.75rem;
             flex-wrap: wrap;
             justify-content: flex-end;
         }
@@ -395,13 +658,16 @@
         }
 
         .tag {
-            background: var(--bg-tertiary);
-            color: var(--text-secondary);
-            padding: 0.375rem 0.75rem;
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--accent-primary);
+            padding: 0.375rem 0.875rem;
+            border: 1px solid rgba(0, 255, 136, 0.3);
             border-radius: 0.375rem;
             font-size: 0.75rem;
-            font-weight: 500;
-            border: 1px solid var(--border-color);
+            font-weight: 600;
+            font-family: 'Orbitron', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             transition: all 0.3s ease;
         }
 
@@ -409,41 +675,60 @@
             background: var(--accent-primary);
             color: var(--bg-primary);
             border-color: var(--accent-primary);
+            box-shadow: var(--glow-primary);
         }
 
         .milestone-link {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            margin-top: 1rem;
-            color: var(--accent-primary);
+            margin-top: 1.5rem;
+            color: var(--accent-secondary);
             text-decoration: none;
             font-size: 0.875rem;
-            font-weight: 600;
+            font-weight: 700;
+            font-family: 'Orbitron', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--accent-secondary);
+            border-radius: 0.5rem;
         }
 
         .milestone-link:hover {
-            color: var(--accent-secondary);
+            color: var(--bg-primary);
+            background: var(--accent-secondary);
+            box-shadow: var(--glow-secondary);
+            transform: translateY(-2px);
         }
 
         .milestone-link .mono {
             font-size: 0.75rem;
-            opacity: 0.7;
         }
 
         /* Future milestone */
         .milestone.future {
-            opacity: 0.6;
+            opacity: 0.5;
         }
 
         .milestone.future::before {
             border-style: dashed;
+            border-color: var(--text-muted);
+            animation: none;
+            box-shadow: none;
+        }
+
+        .milestone.future .milestone-title {
+            background: var(--text-muted);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .milestone.future .milestone-content {
-            background: transparent;
-            border: 1px dashed var(--border-color);
+            background: rgba(20, 20, 20, 0.5);
+            border-style: dashed;
         }
 
         /* Footer */
@@ -452,11 +737,26 @@
             padding: 6rem 2rem;
             border-top: 1px solid var(--border-color);
             margin-top: 4rem;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--gradient-neon);
+            border-radius: 2px;
+            box-shadow: var(--glow-primary);
         }
 
         footer p {
             color: var(--text-muted);
             font-size: 0.875rem;
+            font-weight: 300;
         }
 
         footer .mono {
@@ -467,11 +767,19 @@
         footer a {
             color: var(--text-secondary);
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
         }
 
         footer a:hover {
             color: var(--accent-primary);
+            border-color: var(--accent-primary);
+            box-shadow: var(--glow-primary);
         }
 
         /* Responsive */
@@ -480,19 +788,24 @@
                 font-size: 2.5rem;
             }
 
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
             .timeline::before {
-                left: 2rem;
+                left: 1.5rem;
             }
 
             .milestone:nth-child(odd),
             .milestone:nth-child(even) {
-                padding-left: 4.5rem;
+                padding-left: 4rem;
                 padding-right: 0;
                 text-align: left;
             }
 
             .milestone::before {
-                left: 2rem;
+                left: 1.5rem;
             }
 
             .milestone-tags {
@@ -506,38 +819,59 @@
             nav {
                 padding: 1rem 1.5rem;
             }
+
+            .orb {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
     <div class="bg-grid"></div>
-    <div class="noise-overlay"></div>
+    <canvas id="particles"></canvas>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
     <div id="scroll-progress"></div>
 
     <nav>
         <div class="nav-left">
             <a href="./" class="back-link">
                 <span class="mono">←</span>
-                <span>返回主页</span>
+                <span>HOME</span>
             </a>
-            <div class="logo">成长轨迹</div>
+            <div class="logo">GROWTH PATH</div>
         </div>
     </nav>
 
     <header class="hero">
         <h1>
-            <span>和</span>
-            <span style="background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Clawdbot</span>
-            <span>一起成长</span>
+            <span>GROWTH</span>
+            <span style="background: var(--gradient-neon); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">PATH</span>
         </h1>
         <p class="subtitle">
-            从 2026 年 1 月开始，我们共同探索 AI 助手的无限可能。
-            每一个里程碑都是一次学习，每一次迭代都是一次进步。
+            从 2026 年 1 月 28 日开始，与 Clawdbot 一起探索 AI 的边界。<br>
+            每一个里程碑都是一次突破，每一次迭代都是一次进化。
         </p>
-        <div class="hero-meta">
-            <span><span class="mono">Started</span> 2026-01-28</span>
-            <span><span class="mono">Duration</span> ~2 months</span>
-            <span><span class="mono">Status</span> Ongoing</span>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-value">30+</div>
+                <div class="hero-stat-label">Projects</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">100+</div>
+                <div class="hero-stat-label">AI Skills</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">15+</div>
+                <div class="hero-stat-label">Workflows</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">500+</div>
+                <div class="hero-stat-label">Tasks</div>
+            </div>
         </div>
     </header>
 
@@ -545,27 +879,27 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-value">30+</div>
-                <div class="stat-label">项目</div>
+                <div class="stat-label">Projects Built</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value">100+</div>
-                <div class="stat-label">AI 技能</div>
+                <div class="stat-label">AI Skills</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value">15+</div>
-                <div class="stat-label">自动化工作流</div>
+                <div class="stat-label">Workflows</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value">500+</div>
-                <div class="stat-label">任务完成</div>
+                <div class="stat-label">Tasks Completed</div>
             </div>
         </div>
     </section>
 
     <section class="timeline-section">
         <div class="timeline-header">
-            <h2>成长历程</h2>
-            <p>这些是我们共同走过的路，每一步都值得记录。</p>
+            <h2>Timeline</h2>
+            <p>These are the milestones we've reached together. Every step forward is a victory.</p>
         </div>
 
         <div class="timeline">
@@ -573,13 +907,13 @@
             <div class="milestone">
                 <div class="milestone-content">
                     <div class="milestone-date">2026-01-28</div>
-                    <h3 class="milestone-title">初识 AI Prompt to Skill</h3>
+                    <h3 class="milestone-title">AI Prompt to Skill Init</h3>
                     <p class="milestone-description">
-                        创建 AI Prompt to Skill 转换项目，开始探索自动化技能生成的可能性。这是第一次尝试将 AI 提示词系统化并转换为可复用的技能包。
+                        Started the AI Prompt to Skill conversion project. First attempt to systematize AI prompts and convert them into reusable skill packages. This marked the beginning of exploring automated skill generation.
                     </p>
                     <div class="milestone-tags">
-                        <span class="tag">项目初始化</span>
-                        <span class="tag">探索</span>
+                        <span class="tag">Project</span>
+                        <span class="tag">Exploration</span>
                     </div>
                 </div>
             </div>
@@ -588,13 +922,13 @@
             <div class="milestone">
                 <div class="milestone-content">
                     <div class="milestone-date">2026-01-29</div>
-                    <h3 class="milestone-title">Twitter/X 分析与监控</h3>
+                    <h3 class="milestone-title">Twitter/X Analytics</h3>
                     <p class="milestone-description">
-                        开发 Twitter/X 社交媒体分析系统，持续监控 AI 相关动态。集成 ClawdHub 技能报告，开始建立数据驱动的决策机制。
+                        Developed Twitter/X social media analytics system. Continuous monitoring of AI-related dynamics. Integrated ClawdHub skill reports, began building data-driven decision mechanisms.
                     </p>
                     <div class="milestone-tags">
-                        <span class="tag">社交分析</span>
-                        <span class="tag">数据监控</span>
+                        <span class="tag">Analytics</span>
+                        <span class="tag">Monitoring</span>
                         <span class="tag">ClawdHub</span>
                     </div>
                 </div>
@@ -604,14 +938,14 @@
             <div class="milestone">
                 <div class="milestone-content">
                     <div class="milestone-date">2026-01-30</div>
-                    <h3 class="milestone-title">自动化工作流 V1</h3>
+                    <h3 class="milestone-title">Automation V1</h3>
                     <p class="milestone-description">
-                        实现首个自动化工作流，集成 Twitter 和 Firecrawl 数据源。每天定时执行，收集 AI 相关内容并转换报告。
+                        Implemented first automation workflow. Integrated Twitter and Firecrawl data sources. Scheduled daily execution to collect AI-related content and generate reports.
                     </p>
                     <div class="milestone-tags">
-                        <span class="tag">自动化</span>
-                        <span class="tag">定时任务</span>
-                        <span class="tag">数据抓取</span>
+                        <span class="tag">Automation</span>
+                        <span class="tag">Cron</span>
+                        <span class="tag">Data</span>
                     </div>
                 </div>
             </div>
@@ -620,14 +954,14 @@
             <div class="milestone">
                 <div class="milestone-content">
                     <div class="milestone-date">2026-01-31</div>
-                    <h3 class="milestone-title">SearXNG 部署与集成</h3>
+                    <h3 class="milestone-title">SearXNG Deployment</h3>
                     <p class="milestone-description">
-                        部署 SearXNG 自建搜索服务，配置环境变量，集成到工作流。建立隐私搜索基础，为后续功能铺路。
+                        Deployed SearXNG self-hosted search service. Configured environment variables, integrated into workflow. Established privacy search foundation, paving the way for future features.
                     </p>
                     <div class="milestone-tags">
-                        <span class="tag">基础设施</span>
-                        <span class="tag">搜索</span>
-                        <span class="tag">隐私</span>
+                        <span class="tag">Infra</span>
+                        <span class="tag">Search</span>
+                        <span class="tag">Privacy</span>
                     </div>
                 </div>
             </div>
@@ -636,14 +970,14 @@
             <div class="milestone">
                 <div class="milestone-content">
                     <div class="milestone-date">2026-02-01</div>
-                    <h3 class="milestone-title">Memory Manager 系统设计</h3>
+                    <h3 class="milestone-title">Memory Manager Design</h3>
                     <p class="milestone-description">
-                        设计统一的记忆管理系统架构，支持搜索、智能加载、自动记忆。这是对 AI 记忆机制的一次深度思考。
+                        Designed unified memory management system architecture. Supporting search, intelligent loading, automatic memory. Deep thinking on AI memory mechanisms.
                     </p>
                     <div class="milestone-tags">
-                        <span class="tag">系统设计</span>
-                        <span class="tag">记忆管理</span>
-                        <span class="tag">架构</span>
+                        <span class="tag">System</span>
+                        <span class="tag">Memory</span>
+                        <span class="tag">Architecture</span>
                     </div>
                 </div>
             </div>
@@ -652,17 +986,17 @@
             <div class="milestone">
                 <div class="milestone-content">
                     <div class="milestone-date">2026-02-02</div>
-                    <h3 class="milestone-title">个人主页上线</h3>
+                    <h3 class="milestone-title">Personal Site Launch</h3>
                     <p class="milestone-description">
-                        创建个人主页 hhhh124hhhh.github.io，展示项目和成果。配置 Google Analytics，部署到 GitHub Pages，建立在线形象。
+                        Created personal site hhhh124hhhh.github.io. Showcasing projects and achievements. Configured Google Analytics, deployed to GitHub Pages, established online presence.
                     </p>
                     <div class="milestone-tags">
-                        <span class="tag">个人品牌</span>
-                        <span class="tag">Web 开发</span>
-                        <span class="tag">部署</span>
+                        <span class="tag">Brand</span>
+                        <span class="tag">Web</span>
+                        <span class="tag">Deploy</span>
                     </div>
                     <a href="./" class="milestone-link">
-                        访问主页
+                        Visit Site
                         <span class="mono">→</span>
                     </a>
                 </div>
@@ -672,17 +1006,17 @@
             <div class="milestone">
                 <div class="milestone-content">
                     <div class="milestone-date">2026-02-03</div>
-                    <h3 class="milestone-title">成就系统 v2.0</h3>
+                    <h3 class="milestone-title">Achievement System v2.0</h3>
                     <p class="milestone-description">
-                        升级成就系统到 v2.0，新增 16 个 AI 助手专属成就。实现自动追踪系统，从真实统计数据计算进度。
+                        Upgraded achievement system to v2.0. Added 16 AI assistant-specific achievements. Implemented auto-tracking system, calculating progress from real statistics.
                     </p>
                     <div class="milestone-tags">
-                        <span class="tag">游戏化</span>
-                        <span class="tag">追踪</span>
-                        <span class="tag">自动化</span>
+                        <span class="tag">Gamification</span>
+                        <span class="tag">Tracking</span>
+                        <span class="tag">Auto</span>
                     </div>
                     <a href="./achievement-system/" class="milestone-link">
-                        查看成就系统
+                        View Achievements
                         <span class="mono">→</span>
                     </a>
                 </div>
@@ -692,17 +1026,17 @@
             <div class="milestone">
                 <div class="milestone-content">
                     <div class="milestone-date">2026-02-04</div>
-                    <h3 class="milestone-title">视频提示词生成器</h3>
+                    <h3 class="milestone-title">Video Prompt Generator</h3>
                     <p class="milestone-description">
-                        开发完整的视频提示词生成器，集成 XAI Grok Imagine API。支持 10 个视频分类、50 种提示词模板、历史记录、搜索、导出、视频生成。
+                        Developed complete video prompt generator. Integrated XAI Grok Imagine API. Supporting 10 video categories, 50 prompt templates, history, search, export, video generation.
                     </p>
                     <div class="milestone-tags">
-                        <span class="tag">AI 生成</span>
-                        <span class="tag">视频</span>
+                        <span class="tag">AI Gen</span>
+                        <span class="tag">Video</span>
                         <span class="tag">Web UI</span>
                     </div>
                     <a href="./video-prompt-generator.html" class="milestone-link">
-                        尝试生成器
+                        Try Generator
                         <span class="mono">→</span>
                     </a>
                 </div>
@@ -712,45 +1046,45 @@
             <div class="milestone">
                 <div class="milestone-content">
                     <div class="milestone-date">2026-02-04</div>
-                    <h3 class="milestone-title">Vercel API 部署</h3>
+                    <h3 class="milestone-title">Vercel API Deployment</h3>
                     <p class="milestone-description">
-                        将视频生成 API 部署到 Vercel，学习 Serverless 架构、环境变量配置、CORS 处理。建立公网可访问的后端服务。
+                        Deployed video generation API to Vercel. Learned Serverless architecture, environment variable configuration, CORS handling. Established publicly accessible backend service.
                     </p>
                     <div class="milestone-tags">
-                        <span class="tag">云服务</span>
+                        <span class="tag">Cloud</span>
                         <span class="tag">Vercel</span>
                         <span class="tag">API</span>
                     </div>
                 </div>
             </div>
 
-            <!-- 未来 -->
+            <!-- Future -->
             <div class="milestone future">
                 <div class="milestone-content">
-                    <div class="milestone-date">计划中</div>
-                    <h3 class="milestone-title">AI 提示词自动化流程</h3>
+                    <div class="milestone-date">PLANNING</div>
+                    <h3 class="milestone-title">AI Prompt Automation</h3>
                     <p class="milestone-description">
-                        实现完整的 AI 提示词自动化工作流：从多源搜索、质量评估、到自动转换和发布。减少手动操作，提高效率。
+                        Complete AI prompt automation workflow: multi-source search, quality evaluation, to automatic conversion and publishing. Reduce manual operations, improve efficiency.
                     </p>
                     <div class="milestone-tags">
-                        <span class="tag">自动化</span>
-                        <span class="tag">多源集成</span>
-                        <span class="tag">质量评估</span>
+                        <span class="tag">Automation</span>
+                        <span class="tag">Multi-source</span>
+                        <span class="tag">Quality</span>
                     </div>
                 </div>
             </div>
 
             <div class="milestone future">
                 <div class="milestone-content">
-                    <div class="milestone-date">探索中</div>
-                    <h3 class="milestone-title">商业化路径探索</h3>
+                    <div class="milestone-date">EXPLORING</div>
+                    <h3 class="milestone-title">Monetization Path</h3>
                     <p class="milestone-description">
-                        探索 Clawdbot Skills 的商业化可能性：技能市场、订阅服务、定制开发。在技术积累的基础上，思考如何创造价值。
+                        Exploring commercialization possibilities for Clawdbot Skills: skill marketplace, subscription services, custom development. Building on technical foundation, thinking about value creation.
                     </p>
                     <div class="milestone-tags">
-                        <span class="tag">商业化</span>
-                        <span class="tag">商业模式</span>
-                        <span class="tag">价值创造</span>
+                        <span class="tag">Business</span>
+                        <span class="tag">Monetization</span>
+                        <span class="tag">Value</span>
                     </div>
                 </div>
             </div>
@@ -759,17 +1093,110 @@
 
     <footer>
         <p>
-            <span class="mono">Made with curiosity</span> by jack &amp; Clawdbot ·
+            <span class="mono">Built with passion</span> by jack &amp; Clawdbot ·
             <span class="mono">2026</span>
         </p>
-        <p style="margin-top: 1rem;">
+        <p style="margin-top: 1.5rem;">
             <a href="./">
-                <span class="mono">→</span> 返回主页
+                <span class="mono">←</span> Back to Home
             </a>
         </p>
     </footer>
 
     <script>
+        // Particle system
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationFrame;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.color = ['#00ff88', '#00f0ff', '#ff00ff', '#ffaa00'][Math.floor(Math.random() * 4)];
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const particleCount = Math.min(100, Math.floor((canvas.width * canvas.height) / 15000));
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            // Draw connections
+            ctx.strokeStyle = 'rgba(0, 255, 136, 0.1)';
+            ctx.lineWidth = 0.5;
+
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            animationFrame = requestAnimationFrame(animate);
+        }
+
+        // Initialize
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initParticles();
+        });
+
+        resizeCanvas();
+        initParticles();
+        animate();
+
         // Scroll progress
         window.addEventListener('scroll', () => {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
@@ -780,9 +1207,11 @@
 
         // Intersection Observer for scroll animations
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+            entries.forEach((entry, index) => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
                 }
             });
         }, {
