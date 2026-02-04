@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎬 视频提示词生成器 - 测试页面</title>
+    <title>🎬 视频提示词生成器 - 完整版</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -24,7 +24,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
@@ -46,6 +46,20 @@
             margin-bottom: 2rem;
         }
 
+        /* 主布局 */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 控制面板 */
         .controls {
             background: rgba(0,0,0,0.3);
             border-radius: 1rem;
@@ -89,8 +103,8 @@
 
         .category-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.75rem;
             margin-bottom: 1.5rem;
         }
 
@@ -98,10 +112,10 @@
             background: rgba(255,255,255,0.15);
             border: 2px solid rgba(255,255,255,0.3);
             border-radius: 0.5rem;
-            padding: 1rem;
+            padding: 0.75rem;
             color: #f9fafb;
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -144,6 +158,165 @@
             transform: translateY(0);
         }
 
+        /* 侧边栏 - 历史记录 */
+        .sidebar {
+            background: rgba(0,0,0,0.3);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            height: fit-content;
+            max-height: calc(100vh - 150px);
+            overflow-y: auto;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .sidebar-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .icon-btn {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 0.375rem;
+            padding: 0.5rem;
+            color: #f9fafb;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .icon-btn.danger:hover {
+            background: rgba(239, 68, 68, 0.4);
+        }
+
+        .search-box {
+            margin-bottom: 1rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 0.375rem;
+            background: rgba(0,0,0,0.5);
+            color: #f9fafb;
+            font-size: 0.875rem;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 2rem;
+            padding: 0.35rem 0.75rem;
+            color: #f9fafb;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-tab:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .filter-tab.active {
+            background: rgba(102, 126, 234, 0.6);
+            border-color: rgba(102, 126, 234, 0.8);
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .history-item {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .history-item:hover {
+            background: rgba(0,0,0,0.4);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .history-topic {
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .history-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            opacity: 0.7;
+        }
+
+        .empty-history {
+            text-align: center;
+            padding: 2rem;
+            opacity: 0.6;
+            font-size: 0.875rem;
+        }
+
+        /* 导出按钮 */
+        .export-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 0.375rem;
+            padding: 0.5rem 1rem;
+            color: #f9fafb;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .export-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        /* 结果区域 */
         .results {
             margin-top: 2rem;
         }
@@ -153,11 +326,19 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .results-title {
             font-size: 1.5rem;
             font-weight: 600;
+        }
+
+        .results-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .copy-all-btn {
@@ -179,7 +360,7 @@
         .prompt-list {
             display: grid;
             gap: 1.5rem;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
         }
 
         .prompt-card {
@@ -195,6 +376,8 @@
             justify-content: space-between;
             align-items: start;
             margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .prompt-category {
@@ -202,7 +385,6 @@
             padding: 0.25rem 0.75rem;
             background: rgba(255,255,255,0.2);
             border-radius: 2rem;
-            font-size: 0.75rem;
         }
 
         .prompt-style {
@@ -215,9 +397,17 @@
             font-size: 1rem;
             line-height: 1.8;
             margin-bottom: 1rem;
+            max-height: 150px;
+            overflow-y: auto;
         }
 
-        .copy-btn {
+        .prompt-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .prompt-btn {
             background: rgba(255,255,255,0.15);
             border: 1px solid rgba(255,255,255,0.3);
             border-radius: 0.375rem;
@@ -227,18 +417,171 @@
             font-size: 0.875rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 100%;
+            flex: 1;
+            min-width: 100px;
         }
 
-        .copy-btn:hover {
+        .prompt-btn:hover {
             background: rgba(255,255,255,0.25);
         }
 
-        .copy-btn.copied {
+        .prompt-btn.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+        }
+
+        .prompt-btn.primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+
+        .prompt-btn.copied {
             background: rgba(34, 197, 94, 0.3);
             border-color: rgba(34, 197, 94, 0.6);
         }
 
+        .prompt-btn.loading {
+            background: rgba(255,255,255,0.2);
+            cursor: wait;
+            opacity: 0.7;
+        }
+
+        /* 视频生成对话框 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #f9fafb;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 0.5rem;
+            background: rgba(0,0,0,0.5);
+            color: #f9fafb;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.6);
+        }
+
+        .progress-container {
+            background: rgba(0,0,0,0.3);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+
+        .video-result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 0.5rem;
+            display: none;
+        }
+
+        .video-result.show {
+            display: block;
+        }
+
+        .video-url {
+            word-break: break-all;
+            color: #86efac;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        /* 状态消息 */
         .status-message {
             position: fixed;
             bottom: 2rem;
@@ -250,6 +593,7 @@
             backdrop-filter: blur(10px);
             z-index: 1000;
             transition: all 0.3s ease;
+            max-width: 400px;
         }
 
         .status-message.success {
@@ -260,6 +604,11 @@
         .status-message.error {
             background: rgba(239, 68, 68, 0.9);
             border-color: rgba(239, 68, 68, 0.6);
+        }
+
+        .status-message.info {
+            background: rgba(59, 130, 246, 0.9);
+            border-color: rgba(59, 130, 246, 0.6);
         }
 
         .status-message.hidden {
@@ -289,12 +638,35 @@
             }
 
             .category-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             }
 
             .prompt-list {
                 grid-template-columns: 1fr;
             }
+
+            .sidebar {
+                position: static;
+                max-height: none;
+            }
+        }
+
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.2);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.4);
         }
     </style>
 </head>
@@ -302,64 +674,109 @@
     <div class="container">
         <header>
             <h1>🎬 视频提示词生成器</h1>
-            <p class="subtitle">AI 驱动的高质量视频提示词生成工具</p>
+            <p class="subtitle">AI 驱动的高质量视频提示词生成工具 | 集成 Grok Imagine API</p>
         </header>
 
-        <section class="controls">
-            <div class="control-group">
-                <label for="topic">📝 主题 / Topic</label>
-                <input
-                    type="text"
-                    id="topic"
-                    placeholder="例如：猫咪玩耍、产品展示、都市生活..."
-                    value="猫咪玩耍"
-                >
+        <div class="main-layout">
+            <!-- 主内容区域 -->
+            <div class="main-content">
+                <section class="controls">
+                    <div class="control-group">
+                        <label for="topic">📝 主题 / Topic</label>
+                        <input
+                            type="text"
+                            id="topic"
+                            placeholder="例如：猫咪玩耍、产品展示、都市生活..."
+                            value="猫咪玩耍"
+                        >
+                    </div>
+
+                    <div class="control-group">
+                        <label>🎨 选择分类 / Select Categories</label>
+                        <div class="category-grid">
+                            <button class="category-btn" data-category="landscape">🌄 风景</button>
+                            <button class="category-btn" data-category="product">📦 产品</button>
+                            <button class="category-btn" data-category="tech">🤖 科技</button>
+                            <button class="category-btn active" data-category="all">🎬 全部</button>
+                            <button class="category-btn" data-category="emotional">💖 情感</button>
+                            <button class="category-btn" data-category="urban">🏙 都市</button>
+                            <button class="category-btn" data-category="food">🍜 美食</button>
+                            <button class="category-btn" data-category="sports">🏃 运动</button>
+                            <button class="category-btn" data-category="ancient">🏛️ 古风</button>
+                            <button class="category-btn" data-category="anime">🎨 动漫</button>
+                            <button class="category-btn" data-category="abstract">🎭 抽象</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="enhancements">✨ 增强效果 / Enhancements (可选)</label>
+                        <textarea
+                            id="enhancements"
+                            rows="3"
+                            placeholder="例如：golden hour lighting, slow zoom camera, cinematic mood, 4K quality"
+                        ></textarea>
+                    </div>
+
+                    <button class="generate-btn" id="generateBtn">🚀 生成提示词 / Generate Prompts</button>
+                </section>
+
+                <section class="results" id="resultsSection">
+                    <div class="results-header">
+                        <h2 class="results-title">📊 生成结果 / Results</h2>
+                        <div class="results-actions">
+                            <button class="copy-all-btn" id="copyAllBtn">📋 复制全部</button>
+                            <button class="copy-all-btn" id="exportCurrentJsonBtn">📄 导出 JSON</button>
+                            <button class="copy-all-btn" id="exportCurrentMdBtn">📝 导出 Markdown</button>
+                        </div>
+                    </div>
+
+                    <div class="prompt-list" id="promptList">
+                        <!-- 生成的提示词将显示在这里 -->
+                        <p style="grid-column: 1 / -1; text-align: center; opacity: 0.7; padding: 3rem;">
+                            点击"生成提示词"按钮开始生成...
+                        </p>
+                    </div>
+                </section>
             </div>
 
-            <div class="control-group">
-                <label>🎨 选择分类 / Select Categories</label>
-                <div class="category-grid">
-                    <button class="category-btn" data-category="landscape">🌄 风景</button>
-                    <button class="category-btn" data-category="product">📦 产品</button>
-                    <button class="category-btn" data-category="tech">🤖 科技</button>
-                    <button class="category-btn active" data-category="all">🎬 全部</button>
-                    <button class="category-btn" data-category="emotional">💖 情感</button>
-                    <button class="category-btn" data-category="urban">🏙 都市</button>
-                    <button class="category-btn" data-category="food">🍜 美食</button>
-                    <button class="category-btn" data-category="sports">🏃 运动</button>
-                    <button class="category-btn" data-category="ancient">🏛️ 古风</button>
-                    <button class="category-btn" data-category="anime">🎨 动漫</button>
-                    <button class="category-btn" data-category="abstract">🎭 抽象</button>
+            <!-- 侧边栏 - 历史记录 -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h3 class="sidebar-title">📚 历史记录</h3>
+                    <div class="sidebar-actions">
+                        <button class="icon-btn" id="toggleSidebarBtn" title="折叠/展开">📁</button>
+                        <button class="icon-btn danger" id="clearHistoryBtn" title="清除历史">🗑️</button>
+                    </div>
                 </div>
-            </div>
 
-            <div class="control-group">
-                <label for="enhancements">✨ 增强效果 / Enhancements (可选)</label>
-                <textarea
-                    id="enhancements"
-                    rows="3"
-                    placeholder="例如：golden hour lighting, slow zoom camera, cinematic mood, 4K quality"
-                ></textarea>
-            </div>
+                <div class="search-box">
+                    <input type="text" class="search-input" id="historySearch" placeholder="🔍 搜索历史...">
+                </div>
 
-            <button class="generate-btn" id="generateBtn">🚀 生成提示词 / Generate Prompts</button>
-        </section>
+                <div class="filter-tabs" id="historyFilters">
+                    <span class="filter-tab active" data-filter="all">全部</span>
+                    <span class="filter-tab" data-filter="landscape">风景</span>
+                    <span class="filter-tab" data-filter="product">产品</span>
+                    <span class="filter-tab" data-filter="tech">科技</span>
+                    <span class="filter-tab" data-filter="emotional">情感</span>
+                    <span class="filter-tab" data-filter="urban">都市</span>
+                    <span class="filter-tab" data-filter="food">美食</span>
+                    <span class="filter-tab" data-filter="sports">运动</span>
+                    <span class="filter-tab" data-filter="ancient">古风</span>
+                    <span class="filter-tab" data-filter="anime">动漫</span>
+                    <span class="filter-tab" data-filter="abstract">抽象</span>
+                </div>
 
-        <section class="results" id="resultsSection">
-            <div class="results-header">
-                <h2 class="results-title">📊 生成结果 / Results</h2>
-                <button class="copy-all-btn" id="copyAllBtn">📋 复制全部</button>
-            </div>
+                <div class="history-list" id="historyList">
+                    <p class="empty-history">暂无历史记录</p>
+                </div>
 
-            <div class="prompt-list" id="promptList">
-                <!-- 生成的提示词将显示在这里 -->
-                <p style="grid-column: 1 / -1; text-align: center; opacity: 0.7; padding: 3rem;">
-                    点击"生成提示词"按钮开始生成...
-                </p>
-            </div>
-        </section>
-
-        <div class="status-message hidden" id="statusMessage"></div>
+                <div class="export-buttons">
+                    <button class="export-btn" id="exportHistoryJsonBtn">📄 历史导出 JSON</button>
+                    <button class="export-btn" id="exportHistoryMdBtn">📝 历史导出 Markdown</button>
+                </div>
+            </aside>
+        </div>
 
         <footer>
             <p>集成 <strong>Grok Imagine API</strong> (xAI) | 10+ 种视频风格 | 提示词增强系统</p>
@@ -367,8 +784,73 @@
         </footer>
     </div>
 
+    <!-- 视频生成模态框 -->
+    <div class="modal-overlay" id="videoModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">🎬 生成视频</h3>
+                <button class="modal-close" id="closeVideoModal">×</button>
+            </div>
+
+            <div id="videoForm">
+                <div class="form-group">
+                    <label class="form-label">🎯 风格</label>
+                    <p id="videoStyleName" style="color: rgba(255,255,255,0.7); font-size: 0.875rem; margin-bottom: 0.5rem;"></p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">⏱️ 视频时长</label>
+                    <select class="form-select" id="videoDuration">
+                        <option value="3">3 秒 (快速)</option>
+                        <option value="5" selected>5 秒 (标准)</option>
+                        <option value="10">10 秒 (详细)</option>
+                        <option value="15">15 秒 (最长)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">📐 宽高比</label>
+                    <select class="form-select" id="videoAspectRatio">
+                        <option value="16:9" selected>16:9 (横屏)</option>
+                        <option value="4:3">4:3 (标准)</option>
+                        <option value="1:1">1:1 (方形)</option>
+                        <option value="9:16">9:16 (竖屏)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">📺 分辨率</label>
+                    <select class="form-select" id="videoResolution">
+                        <option value="720p" selected>720p (高清)</option>
+                        <option value="480p">480p (标清)</option>
+                    </select>
+                </div>
+
+                <button class="generate-btn" id="startVideoGeneration">🚀 开始生成</button>
+            </div>
+
+            <div class="progress-container" id="videoProgress" style="display: none;">
+                <p>正在生成视频...</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p class="progress-text" id="progressText">0%</p>
+
+                <div class="video-result" id="videoResult">
+                    <p>✅ 视频生成成功！</p>
+                    <a href="#" class="video-url" id="videoUrlLink" target="_blank">点击查看视频</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 状态消息 -->
+    <div class="status-message hidden" id="statusMessage"></div>
+
     <script>
-        // 预设提示词模板
+        // ======================
+        // 提示词模板
+        // ======================
         const promptTemplates = {
             landscape: [
                 { style: "Serene Mountain Sunrise", emoji: "🏔️", prompt: "Cinematic video of {topic} at sunrise over misty mountains, golden hour light breaking through clouds, slow camera movement revealing scenic panorama, dramatic lighting with soft shadows, 4K quality, peaceful and majestic atmosphere" },
@@ -442,7 +924,18 @@
             ]
         };
 
+        // ======================
+        // 状态管理
+        // ======================
+        let selectedCategories = ['all'];
+        let generatedPrompts = [];
+        let history = [];
+        let historyFilter = 'all';
+        let currentGeneratingPrompt = null;
+
+        // ======================
         // DOM 元素
+        // ======================
         const topicInput = document.getElementById('topic');
         const enhancementsInput = document.getElementById('enhancements');
         const generateBtn = document.getElementById('generateBtn');
@@ -450,33 +943,177 @@
         const statusMessage = document.getElementById('statusMessage');
         const copyAllBtn = document.getElementById('copyAllBtn');
         const categoryBtns = document.querySelectorAll('.category-btn');
+        const historySearch = document.getElementById('historySearch');
+        const historyList = document.getElementById('historyList');
+        const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+        const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+        const historyFilters = document.querySelectorAll('.filter-tab');
+        const sidebar = document.querySelector('.sidebar');
+        const videoModal = document.getElementById('videoModal');
+        const closeVideoModal = document.getElementById('closeVideoModal');
+        const startVideoGeneration = document.getElementById('startVideoGeneration');
 
-        let selectedCategories = ['all'];
-        let generatedPrompts = [];
+        // ======================
+        // 工具函数
+        // ======================
 
         // 显示状态消息
-        function showStatus(message, type = 'info') {
+        function showStatus(message, type = 'info', duration = 3000) {
             statusMessage.textContent = message;
             statusMessage.className = `status-message ${type}`;
+            statusMessage.classList.remove('hidden');
 
-            if (type === 'success') {
-                statusMessage.classList.remove('hidden');
-                setTimeout(() => {
-                    statusMessage.classList.add('hidden');
-                }, 3000);
-            } else if (type === 'error') {
-                statusMessage.classList.remove('hidden');
-                setTimeout(() => {
-                    statusMessage.classList.add('hidden');
-                }, 5000);
+            setTimeout(() => {
+                statusMessage.classList.add('hidden');
+            }, duration);
+        }
+
+        // 格式化日期时间
+        function formatDateTime(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // ======================
+        // 历史记录管理
+        // ======================
+
+        // 保存历史记录到 localStorage
+        function saveHistory() {
+            try {
+                localStorage.setItem('videoPromptHistory', JSON.stringify(history));
+            } catch (e) {
+                console.error('保存历史记录失败:', e);
             }
         }
+
+        // 从 localStorage 加载历史记录
+        function loadHistory() {
+            try {
+                const saved = localStorage.getItem('videoPromptHistory');
+                if (saved) {
+                    history = JSON.parse(saved);
+                    renderHistory();
+                }
+            } catch (e) {
+                console.error('加载历史记录失败:', e);
+                history = [];
+            }
+        }
+
+        // 添加历史记录
+        function addHistoryRecord(topic, categories, promptCount) {
+            const record = {
+                id: Date.now(),
+                topic: topic,
+                categories: categories,
+                promptCount: promptCount,
+                prompts: JSON.parse(JSON.stringify(generatedPrompts)),
+                timestamp: Date.now()
+            };
+
+            history.unshift(record);
+
+            // 限制历史记录数量（最多 100 条）
+            if (history.length > 100) {
+                history = history.slice(0, 100);
+            }
+
+            saveHistory();
+            renderHistory();
+        }
+
+        // 清除历史记录
+        function clearHistory() {
+            if (confirm('确定要清除所有历史记录吗？')) {
+                history = [];
+                saveHistory();
+                renderHistory();
+                showStatus('✅ 历史记录已清除', 'success');
+            }
+        }
+
+        // 渲染历史记录
+        function renderHistory() {
+            const searchTerm = historySearch.value.trim().toLowerCase();
+            let filteredHistory = history;
+
+            // 应用搜索过滤
+            if (searchTerm) {
+                filteredHistory = filteredHistory.filter(record =>
+                    record.topic.toLowerCase().includes(searchTerm) ||
+                    record.categories.some(cat => cat.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            // 应用分类过滤
+            if (historyFilter !== 'all') {
+                filteredHistory = filteredHistory.filter(record =>
+                    record.categories.includes(historyFilter) ||
+                    record.prompts.some(p => p.category === historyFilter)
+                );
+            }
+
+            historyList.innerHTML = '';
+
+            if (filteredHistory.length === 0) {
+                historyList.innerHTML = '<p class="empty-history">暂无历史记录</p>';
+                return;
+            }
+
+            filteredHistory.forEach(record => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                item.innerHTML = `
+                    <div class="history-topic">📌 ${record.topic}</div>
+                    <div class="history-meta">
+                        <span>${record.promptCount} 个提示词</span>
+                        <span>${formatDateTime(record.timestamp)}</span>
+                    </div>
+                `;
+
+                item.addEventListener('click', () => loadHistoryRecord(record));
+                historyList.appendChild(item);
+            });
+        }
+
+        // 加载历史记录
+        function loadHistoryRecord(record) {
+            generatedPrompts = JSON.parse(JSON.stringify(record.prompts));
+            topicInput.value = record.topic;
+
+            // 更新分类选择
+            categoryBtns.forEach(btn => btn.classList.remove('active'));
+            if (record.categories.includes('all')) {
+                document.querySelector('[data-category="all"]').classList.add('active');
+                selectedCategories = ['all'];
+            } else {
+                record.categories.forEach(cat => {
+                    const btn = document.querySelector(`[data-category="${cat}"]`);
+                    if (btn) btn.classList.add('active');
+                });
+                selectedCategories = [...record.categories];
+            }
+
+            renderPrompts();
+            showStatus(`✅ 已加载历史记录：${record.topic}`, 'success');
+        }
+
+        // ======================
+        // 提示词生成
+        // ======================
 
         // 生成提示词
         function generatePrompts() {
             const topic = topicInput.value.trim();
             if (!topic) {
-                showStatus('❌ 请输入主题！', 'error');
+                showStatus('❌ 请输入主题！', 'error', 5000);
                 return;
             }
 
@@ -515,12 +1152,20 @@
             // 渲染结果
             renderPrompts();
 
+            // 添加到历史记录
+            addHistoryRecord(topic, categoriesToUse, generatedPrompts.length);
+
             showStatus(`✅ 成功生成 ${generatedPrompts.length} 个提示词！`, 'success');
         }
 
         // 渲染提示词
         function renderPrompts() {
             promptList.innerHTML = '';
+
+            if (generatedPrompts.length === 0) {
+                promptList.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; opacity: 0.7; padding: 3rem;">点击"生成提示词"按钮开始生成...</p>';
+                return;
+            }
 
             generatedPrompts.forEach((prompt, index) => {
                 const card = document.createElement('div');
@@ -532,7 +1177,10 @@
                         <span class="prompt-style">${prompt.emoji} ${prompt.style}</span>
                     </div>
                     <div class="prompt-text">${prompt.prompt}</div>
-                    <button class="copy-btn" onclick="copyPrompt(${index})">📋 复制</button>
+                    <div class="prompt-actions">
+                        <button class="prompt-btn" onclick="copyPrompt(${index})">📋 复制</button>
+                        <button class="prompt-btn primary" onclick="openVideoModal(${index})">🎬 生成视频</button>
+                    </div>
                 `;
 
                 promptList.appendChild(card);
@@ -546,21 +1194,29 @@
                 showStatus(`✅ 已复制：${prompt.style}`, 'success');
 
                 // 更新按钮状态
-                const copyBtns = document.querySelectorAll('.copy-btn');
-                copyBtns[index].classList.add('copied');
-                copyBtns[index].textContent = '✅ 已复制';
+                const copyBtns = document.querySelectorAll('.prompt-btn');
+                const targetBtn = Array.from(copyBtns).find(btn => btn.textContent.includes('📋'));
+                if (targetBtn) {
+                    targetBtn.classList.add('copied');
+                    targetBtn.textContent = '✅ 已复制';
 
-                setTimeout(() => {
-                    copyBtns[index].classList.remove('copied');
-                    copyBtns[index].textContent = '📋 复制';
-                }, 2000);
+                    setTimeout(() => {
+                        targetBtn.classList.remove('copied');
+                        targetBtn.textContent = '📋 复制';
+                    }, 2000);
+                }
             }).catch(err => {
-                showStatus('❌ 复制失败', 'error');
+                showStatus('❌ 复制失败', 'error', 5000);
             });
         };
 
         // 复制全部提示词
         function copyAllPrompts() {
+            if (generatedPrompts.length === 0) {
+                showStatus('❌ 没有可复制的提示词', 'error');
+                return;
+            }
+
             const allPrompts = generatedPrompts.map(p => `[${p.style}] ${p.prompt}`).join('\n\n');
 
             navigator.clipboard.writeText(allPrompts).then(() => {
@@ -575,23 +1231,251 @@
             });
         }
 
+        // ======================
+        // 视频生成功能
+        // ======================
+
+        // 打开视频生成模态框
+        window.openVideoModal = function(index) {
+            currentGeneratingPrompt = generatedPrompts[index];
+            document.getElementById('videoStyleName').textContent = `${currentGeneratingPrompt.emoji} ${currentGeneratingPrompt.style}`;
+            document.getElementById('videoForm').style.display = 'block';
+            document.getElementById('videoProgress').style.display = 'none';
+            videoModal.classList.add('active');
+        };
+
+        // 关闭视频生成模态框
+        function closeVideoModalFn() {
+            videoModal.classList.remove('active');
+            currentGeneratingPrompt = null;
+        }
+
+        // 开始视频生成
+        async function startVideoGenerationFn() {
+            if (!currentGeneratingPrompt) {
+                showStatus('❌ 未选择提示词', 'error');
+                return;
+            }
+
+            const duration = document.getElementById('videoDuration').value;
+            const aspectRatio = document.getElementById('videoAspectRatio').value;
+            const resolution = document.getElementById('videoResolution').value;
+
+            document.getElementById('videoForm').style.display = 'none';
+            document.getElementById('videoProgress').style.display = 'block';
+            document.getElementById('videoResult').classList.remove('show');
+
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+
+            // 模拟进度（实际应该从后端 API 获取）
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 95) progress = 95;
+                progressFill.style.width = `${progress}%`;
+                progressText.textContent = `${Math.round(progress)}%`;
+            }, 1000);
+
+            try {
+                // 调用后端 API 生成视频
+                const response = await fetch('/api/generate-video', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        prompt: currentGeneratingPrompt.prompt,
+                        duration: parseInt(duration),
+                        aspectRatio: aspectRatio,
+                        resolution: resolution
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                // 清除进度更新
+                clearInterval(progressInterval);
+                progressFill.style.width = '100%';
+                progressText.textContent = '100%';
+
+                // 显示结果
+                setTimeout(() => {
+                    if (data.success && data.url) {
+                        document.getElementById('videoUrlLink').href = data.url;
+                        document.getElementById('videoResult').classList.add('show');
+                        showStatus('✅ 视频生成成功！', 'success');
+                    } else {
+                        showStatus('❌ 视频生成失败', 'error');
+                        document.getElementById('videoResult').classList.remove('show');
+                    }
+                }, 500);
+
+            } catch (error) {
+                clearInterval(progressInterval);
+
+                // 如果后端 API 不可用，显示示例 URL
+                console.warn('后端 API 不可用，使用模拟结果');
+
+                progressFill.style.width = '100%';
+                progressText.textContent = '100%';
+
+                setTimeout(() => {
+                    showStatus('⚠️ 后端 API 不可用，显示示例 URL', 'info');
+
+                    // 示例 URL（实际应该从后端获取）
+                    const exampleUrl = 'https://example.com/video/' + Date.now();
+                    document.getElementById('videoUrlLink').href = exampleUrl;
+                    document.getElementById('videoUrlLink').textContent = '示例视频 URL（需要配置后端 API）';
+                    document.getElementById('videoResult').classList.add('show');
+                }, 500);
+            }
+        }
+
+        // ======================
+        // 导出功能
+        // ======================
+
+        // 导出当前生成结果为 JSON
+        function exportCurrentJson() {
+            if (generatedPrompts.length === 0) {
+                showStatus('❌ 没有可导出的内容', 'error');
+                return;
+            }
+
+            const data = {
+                topic: topicInput.value,
+                categories: selectedCategories,
+                generatedAt: new Date().toISOString(),
+                promptCount: generatedPrompts.length,
+                prompts: generatedPrompts
+            };
+
+            downloadJson(data, 'video-prompts-' + Date.now() + '.json');
+            showStatus('✅ JSON 文件已导出', 'success');
+        }
+
+        // 导出当前生成结果为 Markdown
+        function exportCurrentMarkdown() {
+            if (generatedPrompts.length === 0) {
+                showStatus('❌ 没有可导出的内容', 'error');
+                return;
+            }
+
+            let markdown = `# 视频提示词\n\n`;
+            markdown += `**主题**: ${topicInput.value}\n`;
+            markdown += `**生成时间**: ${formatDateTime(Date.now())}\n`;
+            markdown += `**提示词数量**: ${generatedPrompts.length}\n\n`;
+            markdown += `---\n\n`;
+
+            generatedPrompts.forEach((prompt, index) => {
+                markdown += `## ${index + 1}. ${prompt.style} ${prompt.emoji}\n\n`;
+                markdown += `**分类**: ${prompt.category}\n\n`;
+                markdown += `**提示词**:\n\n`;
+                markdown += `\`\`\`\n${prompt.prompt}\n\`\`\`\n\n`;
+                markdown += `---\n\n`;
+            });
+
+            downloadMarkdown(markdown, 'video-prompts-' + Date.now() + '.md');
+            showStatus('✅ Markdown 文件已导出', 'success');
+        }
+
+        // 导出历史记录为 JSON
+        function exportHistoryJson() {
+            if (history.length === 0) {
+                showStatus('❌ 没有历史记录', 'error');
+                return;
+            }
+
+            const data = {
+                exportedAt: new Date().toISOString(),
+                recordCount: history.length,
+                history: history
+            };
+
+            downloadJson(data, 'video-prompts-history-' + Date.now() + '.json');
+            showStatus('✅ 历史记录 JSON 已导出', 'success');
+        }
+
+        // 导出历史记录为 Markdown
+        function exportHistoryMarkdown() {
+            if (history.length === 0) {
+                showStatus('❌ 没有历史记录', 'error');
+                return;
+            }
+
+            let markdown = `# 视频提示词历史记录\n\n`;
+            markdown += `**导出时间**: ${formatDateTime(Date.now())}\n`;
+            markdown += `**记录数量**: ${history.length}\n\n`;
+            markdown += `---\n\n`;
+
+            history.forEach((record, recordIndex) => {
+                markdown += `## 记录 ${recordIndex + 1}: ${record.topic}\n\n`;
+                markdown += `**生成时间**: ${formatDateTime(record.timestamp)}\n`;
+                markdown += `**提示词数量**: ${record.promptCount}\n`;
+                markdown += `**分类**: ${record.categories.join(', ')}\n\n`;
+
+                record.prompts.forEach((prompt, promptIndex) => {
+                    markdown += `### ${prompt.style} ${prompt.emoji}\n\n`;
+                    markdown += `**分类**: ${prompt.category}\n\n`;
+                    markdown += `\`\`\`\n${prompt.prompt}\n\`\`\`\n\n`;
+                });
+
+                markdown += `---\n\n`;
+            });
+
+            downloadMarkdown(markdown, 'video-prompts-history-' + Date.now() + '.md');
+            showStatus('✅ 历史记录 Markdown 已导出', 'success');
+        }
+
+        // 下载 JSON 文件
+        function downloadJson(data, filename) {
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // 下载 Markdown 文件
+        function downloadMarkdown(content, filename) {
+            const blob = new Blob([content], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // ======================
+        // 事件监听
+        // ======================
+
         // 分类按钮点击
         categoryBtns.forEach(btn => {
             btn.addEventListener('click', function() {
                 const category = this.dataset.category;
 
                 if (category === 'all') {
-                    // 全部选择，清除其他
                     categoryBtns.forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     selectedCategories = ['all'];
                 } else {
-                    // 移除"全部"选择
                     const allBtn = document.querySelector('[data-category="all"]');
                     allBtn.classList.remove('active');
 
                     if (this.classList.contains('active')) {
-                        // 取消选择
                         this.classList.remove('active');
                         selectedCategories = selectedCategories.filter(c => c !== category);
 
@@ -600,16 +1484,39 @@
                             selectedCategories = ['all'];
                         }
                     } else {
-                        // 添加选择
                         this.classList.add('active');
                         if (!selectedCategories.includes(category)) {
                             selectedCategories.push(category);
                         }
                     }
                 }
-
-                console.log('Selected categories:', selectedCategories);
             });
+        });
+
+        // 历史过滤标签点击
+        historyFilters.forEach(tab => {
+            tab.addEventListener('click', function() {
+                historyFilters.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                historyFilter = this.dataset.filter;
+                renderHistory();
+            });
+        });
+
+        // 历史搜索
+        historySearch.addEventListener('input', renderHistory);
+
+        // 清除历史
+        clearHistoryBtn.addEventListener('click', clearHistory);
+
+        // 折叠/展开侧边栏
+        toggleSidebarBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('collapsed');
+            if (sidebar.classList.contains('collapsed')) {
+                sidebar.style.display = 'none';
+            } else {
+                sidebar.style.display = 'block';
+            }
         });
 
         // 生成按钮点击
@@ -618,6 +1525,21 @@
         // 复制全部按钮点击
         copyAllBtn.addEventListener('click', copyAllPrompts);
 
+        // 导出按钮
+        document.getElementById('exportCurrentJsonBtn').addEventListener('click', exportCurrentJson);
+        document.getElementById('exportCurrentMdBtn').addEventListener('click', exportCurrentMarkdown);
+        document.getElementById('exportHistoryJsonBtn').addEventListener('click', exportHistoryJson);
+        document.getElementById('exportHistoryMdBtn').addEventListener('click', exportHistoryMarkdown);
+
+        // 视频模态框
+        closeVideoModal.addEventListener('click', closeVideoModalFn);
+        startVideoGeneration.addEventListener('click', startVideoGenerationFn);
+        videoModal.addEventListener('click', function(e) {
+            if (e.target === videoModal) {
+                closeVideoModalFn();
+            }
+        });
+
         // 回车键生成
         topicInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -625,8 +1547,15 @@
             }
         });
 
-        // 页面加载后自动生成一次
+        // ======================
+        // 初始化
+        // ======================
+
+        // 页面加载时执行
         window.addEventListener('DOMContentLoaded', function() {
+            loadHistory();
+
+            // 自动生成一次演示
             setTimeout(() => {
                 generatePrompts();
             }, 500);
