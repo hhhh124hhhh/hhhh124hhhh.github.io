@@ -246,6 +246,39 @@
             box-shadow: var(--glow-primary);
         }
 
+        /* Language switcher */
+        .lang-switch {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .lang-btn {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.8125rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', monospace;
+            font-weight: 600;
+        }
+
+        .lang-btn:hover {
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+            box-shadow: var(--glow-primary);
+        }
+
+        .lang-btn.active {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            border-color: var(--accent-primary);
+            box-shadow: var(--glow-primary);
+        }
+
         /* Hero section */
         .hero {
             min-height: 100vh;
@@ -269,23 +302,19 @@
             animation: heroGlow 4s ease-in-out infinite;
         }
 
-        .hero h1 span {
+        .hero h1 .zh {
             display: block;
-            animation: slideIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-            opacity: 0;
-            transform: translateY(50px);
         }
 
-        .hero h1 span:nth-child(1) { animation-delay: 0.2s; }
-        .hero h1 span:nth-child(2) { animation-delay: 0.4s; }
-        .hero h1 span:nth-child(3) { animation-delay: 0.6s; }
-
-        @keyframes slideIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .hero h1 .en {
+            display: none;
+            font-size: 0.6em;
+            opacity: 0.6;
+            letter-spacing: 2px;
         }
+
+        body.lang-en .hero h1 .zh { display: none; }
+        body.lang-en .hero h1 .en { display: block; }
 
         @keyframes heroGlow {
             0%, 100% {
@@ -310,6 +339,11 @@
             opacity: 0;
             animation: fadeIn 1s ease-out 1s forwards;
         }
+
+        .hero .subtitle .zh { display: block; }
+        .hero .subtitle .en { display: none; }
+        body.lang-en .hero .subtitle .zh { display: none; }
+        body.lang-en .hero .subtitle .en { display: block; }
 
         .hero-stats {
             display: flex;
@@ -343,6 +377,7 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 0.5rem;
+            animation: numberGlow 2s ease-in-out infinite;
         }
 
         .hero-stat-label {
@@ -351,6 +386,16 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
+        }
+
+        .hero-stat-label .zh { display: block; }
+        .hero-stat-label .en { display: none; }
+        body.lang-en .hero-stat-label .zh { display: none; }
+        body.lang-en .hero-stat-label .en { display: block; }
+
+        @keyframes numberGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.5)); }
+            50% { filter: drop-shadow(0 0 40px rgba(0, 240, 255, 0.8)); }
         }
 
         @keyframes fadeIn {
@@ -419,11 +464,6 @@
             animation: numberGlow 2s ease-in-out infinite;
         }
 
-        @keyframes numberGlow {
-            0%, 100% { filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.5)); }
-            50% { filter: drop-shadow(0 0 40px rgba(0, 240, 255, 0.8)); }
-        }
-
         .stat-label {
             color: var(--text-secondary);
             font-size: 1rem;
@@ -431,6 +471,11 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+
+        .stat-label .zh { display: block; }
+        .stat-label .en { display: none; }
+        body.lang-en .stat-label .zh { display: none; }
+        body.lang-en .stat-label .en { display: block; }
 
         /* Timeline section */
         .timeline-section {
@@ -454,6 +499,11 @@
             animation: headerGlow 3s ease-in-out infinite;
         }
 
+        .timeline-header h2 .zh { display: block; }
+        .timeline-header h2 .en { display: none; }
+        body.lang-en .timeline-header h2 .zh { display: none; }
+        body.lang-en .timeline-header h2 .en { display: block; }
+
         @keyframes headerGlow {
             0%, 100% {
                 text-shadow:
@@ -474,6 +524,11 @@
             max-width: 700px;
             margin: 0 auto;
         }
+
+        .timeline-header p .zh { display: block; }
+        .timeline-header p .en { display: none; }
+        body.lang-en .timeline-header p .zh { display: none; }
+        body.lang-en .timeline-header p .en { display: block; }
 
         .timeline {
             position: relative;
@@ -646,6 +701,11 @@
             font-weight: 300;
         }
 
+        .milestone-description .zh { display: block; }
+        .milestone-description .en { display: none; }
+        body.lang-en .milestone-description .zh { display: none; }
+        body.lang-en .milestone-description .en { display: block; }
+
         .milestone-tags {
             display: flex;
             gap: 0.75rem;
@@ -695,6 +755,11 @@
             border: 1px solid var(--accent-secondary);
             border-radius: 0.5rem;
         }
+
+        .milestone-link .zh { display: block; }
+        .milestone-link .en { display: none; }
+        body.lang-en .milestone-link .zh { display: none; }
+        body.lang-en .milestone-link .en { display: block; }
 
         .milestone-link:hover {
             color: var(--bg-primary);
@@ -823,6 +888,11 @@
             .orb {
                 display: none;
             }
+
+            .lang-switch {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
         }
     </style>
 </head>
@@ -840,37 +910,54 @@
         <div class="nav-left">
             <a href="./" class="back-link">
                 <span class="mono">←</span>
-                <span>HOME</span>
+                <span class="zh">返回主页</span>
+                <span class="en">Home</span>
             </a>
             <div class="logo">GROWTH PATH</div>
+        </div>
+        <div class="lang-switch">
+            <button class="lang-btn active" data-lang="zh" onclick="setLanguage('zh')">中</button>
+            <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
         </div>
     </nav>
 
     <header class="hero">
         <h1>
-            <span>GROWTH</span>
-            <span style="background: var(--gradient-neon); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">PATH</span>
+            <span class="zh">成长轨迹</span>
+            <span class="en">GROWTH PATH</span>
         </h1>
         <p class="subtitle">
-            从 2026 年 1 月 28 日开始，与 Clawdbot 一起探索 AI 的边界。<br>
-            每一个里程碑都是一次突破，每一次迭代都是一次进化。
+            <span class="zh">从 2026 年 1 月 28 日开始，与 Clawdbot 一起探索 AI 的边界。每一步都是一次学习，每一次迭代都是一次进步。</span>
+            <span class="en">Exploring the boundaries of AI with Clawdbot since January 28, 2026. Every step is a lesson learned, every iteration is a step forward.</span>
         </p>
         <div class="hero-stats">
             <div class="hero-stat">
                 <div class="hero-stat-value">30+</div>
-                <div class="hero-stat-label">Projects</div>
+                <div class="hero-stat-label">
+                    <span class="zh">项目</span>
+                    <span class="en">Projects</span>
+                </div>
             </div>
             <div class="hero-stat">
                 <div class="hero-stat-value">100+</div>
-                <div class="hero-stat-label">AI Skills</div>
+                <div class="hero-stat-label">
+                    <span class="zh">AI 技能</span>
+                    <span class="en">AI Skills</span>
+                </div>
             </div>
             <div class="hero-stat">
                 <div class="hero-stat-value">15+</div>
-                <div class="hero-stat-label">Workflows</div>
+                <div class="hero-stat-label">
+                    <span class="zh">工作流</span>
+                    <span class="en">Workflows</span>
+                </div>
             </div>
             <div class="hero-stat">
                 <div class="hero-stat-value">500+</div>
-                <div class="hero-stat-label">Tasks</div>
+                <div class="hero-stat-label">
+                    <span class="zh">任务完成</span>
+                    <span class="en">Tasks</span>
+                </div>
             </div>
         </div>
     </header>
@@ -879,27 +966,45 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-value">30+</div>
-                <div class="stat-label">Projects Built</div>
+                <div class="stat-label">
+                    <span class="zh">项目构建</span>
+                    <span class="en">Projects Built</span>
+                </div>
             </div>
             <div class="stat-card">
                 <div class="stat-value">100+</div>
-                <div class="stat-label">AI Skills</div>
+                <div class="stat-label">
+                    <span class="zh">AI 技能</span>
+                    <span class="en">AI Skills</span>
+                </div>
             </div>
             <div class="stat-card">
                 <div class="stat-value">15+</div>
-                <div class="stat-label">Workflows</div>
+                <div class="stat-label">
+                    <span class="zh">自动化工作流</span>
+                    <span class="en">Workflows</span>
+                </div>
             </div>
             <div class="stat-card">
                 <div class="stat-value">500+</div>
-                <div class="stat-label">Tasks Completed</div>
+                <div class="stat-label">
+                    <span class="zh">任务完成</span>
+                    <span class="en">Tasks Completed</span>
+                </div>
             </div>
         </div>
     </section>
 
     <section class="timeline-section">
         <div class="timeline-header">
-            <h2>Timeline</h2>
-            <p>These are the milestones we've reached together. Every step forward is a victory.</p>
+            <h2>
+                <span class="zh">成长历程</span>
+                <span class="en">Timeline</span>
+            </h2>
+            <p>
+                <span class="zh">这些是我们共同走过的路，每一步都值得记录。</span>
+                <span class="en">These are the milestones we've reached together. Every step forward is a victory.</span>
+            </p>
         </div>
 
         <div class="timeline">
@@ -907,9 +1012,13 @@
             <div class="milestone">
                 <div class="milestone-content">
                     <div class="milestone-date">2026-01-28</div>
-                    <h3 class="milestone-title">AI Prompt to Skill Init</h3>
+                    <h3 class="milestone-title">
+                        <span class="zh">AI Prompt to Skill 初始化</span>
+                        <span class="en">AI Prompt to Skill Init</span>
+                    </h3>
                     <p class="milestone-description">
-                        Started the AI Prompt to Skill conversion project. First attempt to systematize AI prompts and convert them into reusable skill packages. This marked the beginning of exploring automated skill generation.
+                        <span class="zh">创建 AI Prompt to Skill 转换项目，开始探索自动化技能生成的可能性。这是第一次尝试将 AI 提示词系统化并转换为可复用的技能包。</span>
+                        <span class="en">Started the AI Prompt to Skill conversion project, exploring the possibilities of automated skill generation. This was the first attempt to systematize AI prompts and convert them into reusable skill packages.</span>
                     </p>
                     <div class="milestone-tags">
                         <span class="tag">Project</span>
@@ -922,9 +1031,13 @@
             <div class="milestone">
                 <div class="milestone-content">
                     <div class="milestone-date">2026-01-29</div>
-                    <h3 class="milestone-title">Twitter/X Analytics</h3>
+                    <h3 class="milestone-title">
+                        <span class="zh">Twitter/X 分析与监控</span>
+                        <span class="en">Twitter/X Analytics</span>
+                    </h3>
                     <p class="milestone-description">
-                        Developed Twitter/X social media analytics system. Continuous monitoring of AI-related dynamics. Integrated ClawdHub skill reports, began building data-driven decision mechanisms.
+                        <span class="zh">开发 Twitter/X 社交媒体分析系统，持续监控 AI 相关动态。集成 ClawdHub 技能报告，开始建立数据驱动的决策机制。</span>
+                        <span class="en">Developed Twitter/X social media analytics system, continuously monitoring AI-related dynamics. Integrated ClawdHub skill reports, began building data-driven decision mechanisms.</span>
                     </p>
                     <div class="milestone-tags">
                         <span class="tag">Analytics</span>
@@ -938,9 +1051,13 @@
             <div class="milestone">
                 <div class="milestone-content">
                     <div class="milestone-date">2026-01-30</div>
-                    <h3 class="milestone-title">Automation V1</h3>
+                    <h3 class="milestone-title">
+                        <span class="zh">自动化工作流 V1</span>
+                        <span class="en">Automation V1</span>
+                    </h3>
                     <p class="milestone-description">
-                        Implemented first automation workflow. Integrated Twitter and Firecrawl data sources. Scheduled daily execution to collect AI-related content and generate reports.
+                        <span class="zh">实现首个自动化工作流，集成 Twitter 和 Firecrawl 数据源。每天定时执行，收集 AI 相关内容并转换报告。</span>
+                        <span class="en">Implemented first automation workflow, integrated Twitter and Firecrawl data sources. Scheduled daily execution to collect AI-related content and generate reports.</span>
                     </p>
                     <div class="milestone-tags">
                         <span class="tag">Automation</span>
@@ -954,9 +1071,13 @@
             <div class="milestone">
                 <div class="milestone-content">
                     <div class="milestone-date">2026-01-31</div>
-                    <h3 class="milestone-title">SearXNG Deployment</h3>
+                    <h3 class="milestone-title">
+                        <span class="zh">SearXNG 部署与集成</span>
+                        <span class="en">SearXNG Deployment</span>
+                    </h3>
                     <p class="milestone-description">
-                        Deployed SearXNG self-hosted search service. Configured environment variables, integrated into workflow. Established privacy search foundation, paving the way for future features.
+                        <span class="zh">部署 SearXNG 自建搜索服务，配置环境变量，集成到工作流。建立隐私搜索基础，为后续功能铺路。</span>
+                        <span class="en">Deployed SearXNG self-hosted search service, configured environment variables, integrated into workflow. Established privacy search foundation, paving the way for future features.</span>
                     </p>
                     <div class="milestone-tags">
                         <span class="tag">Infra</span>
@@ -970,9 +1091,13 @@
             <div class="milestone">
                 <div class="milestone-content">
                     <div class="milestone-date">2026-02-01</div>
-                    <h3 class="milestone-title">Memory Manager Design</h3>
+                    <h3 class="milestone-title">
+                        <span class="zh">Memory Manager 系统设计</span>
+                        <span class="en">Memory Manager Design</span>
+                    </h3>
                     <p class="milestone-description">
-                        Designed unified memory management system architecture. Supporting search, intelligent loading, automatic memory. Deep thinking on AI memory mechanisms.
+                        <span class="zh">设计统一的记忆管理系统架构，支持搜索、智能加载、自动记忆。这是对 AI 记忆机制的一次深度思考。</span>
+                        <span class="en">Designed unified memory management system architecture, supporting search, intelligent loading, automatic memory. This was deep thinking on AI memory mechanisms.</span>
                     </p>
                     <div class="milestone-tags">
                         <span class="tag">System</span>
@@ -986,9 +1111,13 @@
             <div class="milestone">
                 <div class="milestone-content">
                     <div class="milestone-date">2026-02-02</div>
-                    <h3 class="milestone-title">Personal Site Launch</h3>
+                    <h3 class="milestone-title">
+                        <span class="zh">个人主页上线</span>
+                        <span class="en">Personal Site Launch</span>
+                    </h3>
                     <p class="milestone-description">
-                        Created personal site hhhh124hhhh.github.io. Showcasing projects and achievements. Configured Google Analytics, deployed to GitHub Pages, established online presence.
+                        <span class="zh">创建个人主页 hhhh124hhhh.github.io，展示项目和成果。配置 Google Analytics，部署到 GitHub Pages，建立在线形象。</span>
+                        <span class="en">Created personal site hhhh124hhhh.github.io, showcasing projects and achievements. Configured Google Analytics, deployed to GitHub Pages, established online presence.</span>
                     </p>
                     <div class="milestone-tags">
                         <span class="tag">Brand</span>
@@ -996,7 +1125,8 @@
                         <span class="tag">Deploy</span>
                     </div>
                     <a href="./" class="milestone-link">
-                        Visit Site
+                        <span class="zh">访问主页</span>
+                        <span class="en">Visit Site</span>
                         <span class="mono">→</span>
                     </a>
                 </div>
@@ -1006,9 +1136,13 @@
             <div class="milestone">
                 <div class="milestone-content">
                     <div class="milestone-date">2026-02-03</div>
-                    <h3 class="milestone-title">Achievement System v2.0</h3>
+                    <h3 class="milestone-title">
+                        <span class="zh">成就系统 v2.0</span>
+                        <span class="en">Achievement System v2.0</span>
+                    </h3>
                     <p class="milestone-description">
-                        Upgraded achievement system to v2.0. Added 16 AI assistant-specific achievements. Implemented auto-tracking system, calculating progress from real statistics.
+                        <span class="zh">升级成就系统到 v2.0，新增 16 个 AI 助手专属成就。实现自动追踪系统，从真实统计数据计算进度。</span>
+                        <span class="en">Upgraded achievement system to v2.0, added 16 AI assistant-specific achievements. Implemented auto-tracking system, calculating progress from real statistics.</span>
                     </p>
                     <div class="milestone-tags">
                         <span class="tag">Gamification</span>
@@ -1016,7 +1150,8 @@
                         <span class="tag">Auto</span>
                     </div>
                     <a href="./achievement-system/" class="milestone-link">
-                        View Achievements
+                        <span class="zh">查看成就</span>
+                        <span class="en">View Achievements</span>
                         <span class="mono">→</span>
                     </a>
                 </div>
@@ -1026,9 +1161,13 @@
             <div class="milestone">
                 <div class="milestone-content">
                     <div class="milestone-date">2026-02-04</div>
-                    <h3 class="milestone-title">Video Prompt Generator</h3>
+                    <h3 class="milestone-title">
+                        <span class="zh">视频提示词生成器</span>
+                        <span class="en">Video Prompt Generator</span>
+                    </h3>
                     <p class="milestone-description">
-                        Developed complete video prompt generator. Integrated XAI Grok Imagine API. Supporting 10 video categories, 50 prompt templates, history, search, export, video generation.
+                        <span class="zh">开发完整的视频提示词生成器，集成 XAI Grok Imagine API。支持 10 个视频分类、50 种提示词模板、历史记录、搜索、导出、视频生成。</span>
+                        <span class="en">Developed complete video prompt generator, integrated XAI Grok Imagine API. Supporting 10 video categories, 50 prompt templates, history, search, export, video generation.</span>
                     </p>
                     <div class="milestone-tags">
                         <span class="tag">AI Gen</span>
@@ -1036,7 +1175,8 @@
                         <span class="tag">Web UI</span>
                     </div>
                     <a href="./video-prompt-generator.html" class="milestone-link">
-                        Try Generator
+                        <span class="zh">尝试生成器</span>
+                        <span class="en">Try Generator</span>
                         <span class="mono">→</span>
                     </a>
                 </div>
@@ -1046,9 +1186,13 @@
             <div class="milestone">
                 <div class="milestone-content">
                     <div class="milestone-date">2026-02-04</div>
-                    <h3 class="milestone-title">Vercel API Deployment</h3>
+                    <h3 class="milestone-title">
+                        <span class="zh">Vercel API 部署</span>
+                        <span class="en">Vercel API Deployment</span>
+                    </h3>
                     <p class="milestone-description">
-                        Deployed video generation API to Vercel. Learned Serverless architecture, environment variable configuration, CORS handling. Established publicly accessible backend service.
+                        <span class="zh">将视频生成 API 部署到 Vercel，学习 Serverless 架构、环境变量配置、CORS 处理。建立公网可访问的后端服务。</span>
+                        <span class="en">Deployed video generation API to Vercel, learned Serverless architecture, environment variable configuration, CORS handling. Established publicly accessible backend service.</span>
                     </p>
                     <div class="milestone-tags">
                         <span class="tag">Cloud</span>
@@ -1061,10 +1205,17 @@
             <!-- Future -->
             <div class="milestone future">
                 <div class="milestone-content">
-                    <div class="milestone-date">PLANNING</div>
-                    <h3 class="milestone-title">AI Prompt Automation</h3>
+                    <div class="milestone-date">
+                        <span class="zh">计划中</span>
+                        <span class="en">Planned</span>
+                    </div>
+                    <h3 class="milestone-title">
+                        <span class="zh">AI 提示词自动化流程</span>
+                        <span class="en">AI Prompt Automation</span>
+                    </h3>
                     <p class="milestone-description">
-                        Complete AI prompt automation workflow: multi-source search, quality evaluation, to automatic conversion and publishing. Reduce manual operations, improve efficiency.
+                        <span class="zh">实现完整的 AI 提示词自动化工作流：从多源搜索、质量评估，到自动转换和发布。减少手动操作，提高效率。</span>
+                        <span class="en">Implement complete AI prompt automation workflow: multi-source search, quality evaluation, to automatic conversion and publishing. Reduce manual operations, improve efficiency.</span>
                     </p>
                     <div class="milestone-tags">
                         <span class="tag">Automation</span>
@@ -1076,10 +1227,17 @@
 
             <div class="milestone future">
                 <div class="milestone-content">
-                    <div class="milestone-date">EXPLORING</div>
-                    <h3 class="milestone-title">Monetization Path</h3>
+                    <div class="milestone-date">
+                        <span class="zh">探索中</span>
+                        <span class="en">Exploring</span>
+                    </div>
+                    <h3 class="milestone-title">
+                        <span class="zh">商业化路径探索</span>
+                        <span class="en">Monetization Path</span>
+                    </h3>
                     <p class="milestone-description">
-                        Exploring commercialization possibilities for Clawdbot Skills: skill marketplace, subscription services, custom development. Building on technical foundation, thinking about value creation.
+                        <span class="zh">探索 Clawdbot Skills 的商业化可能性：技能市场、订阅服务、定制开发。在技术积累的基础上，思考如何创造价值。</span>
+                        <span class="en">Exploring commercialization possibilities for Clawdbot Skills: skill marketplace, subscription services, custom development. Building on technical foundation, thinking about value creation.</span>
                     </p>
                     <div class="milestone-tags">
                         <span class="tag">Business</span>
@@ -1098,12 +1256,34 @@
         </p>
         <p style="margin-top: 1.5rem;">
             <a href="./">
-                <span class="mono">←</span> Back to Home
+                <span class="zh">← 返回主页</span>
+                <span class="en">← Back to Home</span>
             </a>
         </p>
     </footer>
 
     <script>
+        // Language switcher
+        function setLanguage(lang) {
+            document.body.classList.remove('lang-zh', 'lang-en');
+            document.body.classList.add('lang-' + lang);
+            
+            // Update button states
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.lang === lang) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Store preference
+            localStorage.setItem('preferredLang', lang);
+        }
+
+        // Load saved language preference
+        const savedLang = localStorage.getItem('preferredLang') || 'zh';
+        setLanguage(savedLang);
+
         // Particle system
         const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
