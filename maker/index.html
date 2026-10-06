@@ -112,8 +112,13 @@ html[data-theme="dark"] .now .now-side{background:linear-gradient(135deg,#2a2620
 @media(prefers-reduced-motion:reduce){::view-transition-new(root){animation:none}}
 @media(max-width:640px){.now2{grid-template-columns:1fr}.now2 img{min-height:0;max-height:180px}.prow.has-thumb{grid-template-columns:90px 1fr}.pthumb{display:none}}
 /* project list */
-.plist-group{margin-bottom:40px}
-.plist-group:last-child{margin-bottom:0}
+.tabs{display:flex;gap:8px;margin:6px 0 8px;flex-wrap:wrap}
+.tab{background:none;border:1px solid var(--border);border-radius:20px;padding:8px 18px;font-size:13px;letter-spacing:.06em;cursor:pointer;color:var(--muted);font-family:inherit}
+.tab.on{background:var(--primary);color:var(--bg);border-color:var(--primary);font-weight:700}
+.tabpanel{display:none}
+.tabpanel.on{display:block;animation:fadein .35s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.plist-group{margin-bottom:8px}
 .plist-title{font-family:'Space Grotesk',monospace;font-size:12px;letter-spacing:4px;color:var(--muted);margin-bottom:6px}
 .stills{margin-top:44px}
 .strip{display:flex;gap:14px;overflow-x:auto;padding:6px 2px 14px;scroll-snap-type:x mandatory}
@@ -251,8 +256,13 @@ footer a{color:var(--muted);text-decoration:none}
   <!-- WORK -->
   <section id="work" class="reveal">
     <div class="kicker">PROJECTS</div>
-    <div class="plist-group">
-      <div class="plist-title">NOW — 进行中</div>
+    <div class="tabs">
+      <button class="tab on" data-t="now">进行中 · 2</button>
+      <button class="tab" data-t="shipped">已发布 · 5</button>
+      <button class="tab" data-t="exp">实验 · 3</button>
+      <button class="tab" data-t="oss">开源工具 · 1</button>
+    </div>
+    <div class="plist-group tabpanel on" data-p="now">
       <div class="prow">
         <div class="year">2026 —</div>
         <div>
@@ -271,8 +281,7 @@ footer a{color:var(--muted);text-decoration:none}
       </div>
         <img class="pthumb" src="img/aitown-plaza.jpg" alt="AI 小镇">
     </div>
-    <div class="plist-group">
-      <div class="plist-title">SHIPPED — 已发布</div>
+    <div class="plist-group tabpanel" data-p="shipped">
       <div class="prow has-thumb">
         <div class="year">2026</div>
         <div>
@@ -300,8 +309,7 @@ footer a{color:var(--muted);text-decoration:none}
         </div>
       </div>
     </div>
-    <div class="plist-group">
-      <div class="plist-title">EXPERIMENTS — 实验项目</div>
+    <div class="plist-group tabpanel" data-p="exp">
       <div class="prow has-thumb">
         <div class="year">2026</div>
         <div>
@@ -336,8 +344,7 @@ footer a{color:var(--muted);text-decoration:none}
         </div>
       </div>
     </div>
-    <div class="plist-group">
-      <div class="plist-title">OPEN SOURCE — 开源工具</div>
+    <div class="plist-group tabpanel" data-p="oss">
       <div class="prow">
         <div class="year">2025</div>
         <div>
@@ -349,19 +356,6 @@ footer a{color:var(--muted);text-decoration:none}
     </div>
   </section>
 
-    <div class="stills">
-      <div class="plist-title">片场 — PRODUCTION STILLS</div>
-      <div class="strip">
-        <figure><img src="img/aitown-plaza.jpg" alt="AI 小镇 · 镇中心广场"><figcaption>AI 小镇 · 镇中心广场</figcaption></figure>
-        <figure><img src="img/aitown-gate_paifang.jpg" alt="AI 小镇 · 牌坊"><figcaption>AI 小镇 · 牌坊</figcaption></figure>
-        <figure><img src="img/aitown-mansion_dusk.jpg" alt="AI 小镇 · 黄昏"><figcaption>AI 小镇 · 黄昏</figcaption></figure>
-        <figure><img src="img/aitown-town_plaza.jpg" alt="AI 小镇 · 集市"><figcaption>AI 小镇 · 集市</figcaption></figure>
-        <figure><img src="img/abyss-icon.jpg" alt="深渊咖啡馆"><figcaption>深渊咖啡馆 · TapTap</figcaption></figure>
-        <figure><img src="img/jinshang-title.png" alt="晋商传奇"><figcaption>晋商传奇 · 标题屏</figcaption></figure>
-        <figure><img src="img/xiaying-battle.png" alt="侠影手谈"><figcaption>侠影手谈 · 月夜对战</figcaption></figure>
-      </div>
-    </div>
-
   <!-- LAB -->
   <section id="lab" class="reveal">
     <div class="kicker">AI GAME LAB</div>
@@ -370,7 +364,6 @@ footer a{color:var(--muted);text-decoration:none}
       <div>
         <h3>免费 AI 当代码审查员，靠谱吗？</h3>
         <p>拿 OpenRouter 匿名免费模型审查 151 KB 的游戏代码，找出 3 个真 bug，也闹过误报。结论：可用，但必须人工审 patch。</p>
-        <a href="lab/exp-001.html">阅读全文 →</a>
       </div>
     </div>
     <div class="exp">
@@ -378,7 +371,6 @@ footer a{color:var(--muted);text-decoration:none}
       <div>
         <h3>AI 创作流水线：从一句话到 TapTap 上架</h3>
         <p>Grok 挖灵感、AI 生美术音乐、TapTap 制造组装。一套跑通小体量单机游戏的低成本管线。</p>
-        <a href="lab/exp-002.html">阅读全文 →</a>
       </div>
     </div>
     <div class="exp">
@@ -386,7 +378,6 @@ footer a{color:var(--muted);text-decoration:none}
       <div>
         <h3>《深渊咖啡馆》上架复盘：7.8 分是怎么来的</h3>
         <p>叙事模拟经营的冷启动经验：题材选择、TapTap 审核、玩家反馈迭代。</p>
-        <a href="lab/exp-003.html">阅读全文 →</a>
       </div>
     </div>
   </section>
@@ -564,6 +555,17 @@ footer a{color:var(--muted);text-decoration:none}
     }
   },{threshold:0.4});
   var statsEl=document.querySelector('.stats'); if(statsEl) statIO.observe(statsEl);
+
+  /* 项目 Tab 切换 */
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.onclick=function(){
+      document.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('on'); });
+      document.querySelectorAll('.tabpanel').forEach(function(x){ x.classList.remove('on'); });
+      t.classList.add('on');
+      var p=document.querySelector('.tabpanel[data-p="'+t.getAttribute('data-t')+'"]');
+      if(p) p.classList.add('on');
+    };
+  });
 })();
 </script>
 </body>
