@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>好好先生 · AI 游戏制作人的实验档案</title>
+<meta name="description" content="好好先生，独立游戏开发者，夜雨工作室。公开记录 AI 创造游戏的每一步。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F6F2; --card:#FFFFFF; --text:#181818; --muted:#6B6B6B;
+  --border:#E5E3DE; --primary:#161616; --accent:#C84432; --secondary:#667085;
+}
+html[data-theme="dark"]{
+  --bg:#101112; --card:#181A1D; --text:#F2F1ED; --muted:#A6A6A6;
+  --border:#26282C; --primary:#F2F1ED; --accent:#D45643; --secondary:#8A94A0;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Inter','Noto Sans SC',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;line-height:1.9;transition:background .3s,color .3s}
+.wrap{max-width:960px;margin:0 auto;padding:0 24px}
+nav{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--border)}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:60px}
+.logo{font-weight:900;font-size:18px;letter-spacing:.05em}
+.logo em{font-style:normal;color:var(--accent)}
+.nav-links{display:flex;gap:26px;align-items:center}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px}
+.nav-links a:hover{color:var(--text)}
+#themeBtn{background:none;border:1px solid var(--border);border-radius:20px;width:38px;height:38px;cursor:pointer;font-size:16px;color:var(--text)}
+section{padding:64px 0}
+.kicker{font-family:'Space Grotesk',monospace;font-size:12px;letter-spacing:4px;color:var(--accent);margin-bottom:14px}
+/* hero */
+.hero{padding:88px 0 40px}
+.hero .statement{font-size:40px;font-weight:900;line-height:1.5;letter-spacing:.02em;max-width:640px;min-height:120px}
+.hero .statement .it{font-style:italic;font-family:'Space Grotesk','Noto Sans SC',serif}
+.hero .statement .cursor{display:inline-block;width:3px;height:1em;background:var(--accent);margin-left:4px;vertical-align:-0.12em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+/* scroll reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+/* whistle ripple */
+#ripple{position:fixed;inset:0;pointer-events:none;z-index:60;display:none;align-items:center;justify-content:center}
+#ripple .ring{position:absolute;border:2px solid var(--accent);border-radius:50%;animation:ripple 1.6s ease-out forwards}
+@keyframes ripple{from{width:60px;height:60px;opacity:.8}to{width:70vmax;height:70vmax;opacity:0}}
+#ripple .phrase{position:relative;font-size:34px;font-weight:900;letter-spacing:.2em;animation:fadeup 1.6s ease-out forwards}
+@keyframes fadeup{from{opacity:0;transform:translateY(16px)}20%{opacity:1;transform:none}80%{opacity:1}to{opacity:0}}
+.hero .who{margin-top:22px;font-size:14px;color:var(--muted);letter-spacing:.08em}
+.hero .who .en{font-family:'Space Grotesk',monospace}
+.hero .en-line{margin-top:8px;font-family:'Space Grotesk',monospace;font-size:14px;color:var(--secondary)}
+/* AI slider */
+.ai-meter{margin:36px 0 8px;max-width:560px;border:1px solid var(--border);border-radius:10px;padding:20px 22px;background:var(--card)}
+.ai-meter .label{display:flex;justify-content:space-between;font-size:12px;letter-spacing:3px;color:var(--muted);margin-bottom:12px;font-family:'Space Grotesk',monospace}
+.ai-meter .label b{color:var(--accent);font-size:14px}
+.ai-meter input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
+.ai-meter .mode{margin-top:12px;font-size:14px}
+.ai-meter .mode b{color:var(--text)}
+.ai-meter .mode span{color:var(--muted)}
+/* now building */
+.now{margin-top:36px;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.now .now-head{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid var(--border)}
+.now .now-head .k{font-family:'Space Grotesk',monospace;font-size:12px;letter-spacing:3px;color:var(--accent)}
+.now .now-head .v{font-size:12px;color:var(--muted);font-family:'Space Grotesk',monospace}
+.now .now-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.now .now-main{padding:24px}
+.now .now-main h3{font-size:24px;margin-bottom:4px}
+.now .now-main .sub{font-size:13px;color:var(--muted);margin-bottom:18px}
+.stage{margin-bottom:18px}
+.stage .s-label{font-size:12px;color:var(--muted);margin-bottom:8px;letter-spacing:2px}
+.stage .bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.stage .bar i{display:block;height:100%;width:45%;background:var(--accent);border-radius:3px}
+.stage .s-steps{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:6px}
+.pipe{list-style:none;font-size:14px}
+.pipe li{padding:6px 0;border-bottom:1px dashed var(--border);display:flex;justify-content:space-between}
+.pipe li:last-child{border:none}
+.pipe .done{color:var(--accent);font-weight:700}
+.pipe .next{color:var(--muted)}
+.now .now-side{border-left:1px solid var(--border);min-height:220px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#d8cfb8,#f4f1e8);color:#1f1b16;font-weight:900;font-size:22px;letter-spacing:.1em;position:relative}
+html[data-theme="dark"] .now .now-side{background:linear-gradient(135deg,#2a2620,#1a1815);color:#d8cfb8}
+.now .now-foot{padding:16px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.btn{display:inline-block;padding:10px 26px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:700;background:var(--primary);color:var(--bg)}
+.now2{display:grid;grid-template-columns:280px 1fr;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:18px;background:var(--card)}
+.now2 img{width:100%;height:100%;object-fit:cover;min-height:180px;display:block}
+.now2 .t{padding:20px 22px}
+.now2 .k{font-size:11px;letter-spacing:.2em;color:var(--accent);font-weight:700}
+.now2 h3{margin:8px 0 6px;font-size:22px}
+.now2 .d{font-size:14px;color:var(--muted);line-height:1.7}
+.now2 .tags{margin-top:10px}
+.tag{display:inline-block;font-size:12px;border:1px solid var(--border);border-radius:20px;padding:4px 12px;margin-right:8px;color:var(--muted)}
+.prow.has-thumb{grid-template-columns:90px 1fr 132px}
+.pthumb{width:132px;height:88px;object-fit:cover;border-radius:8px;border:1px solid var(--border);align-self:start;filter:saturate(.85) blur(1.5px);transition:filter .45s ease}
+.prow:hover .pthumb{filter:none}
+.strip img{filter:saturate(.9) blur(1px);transition:filter .45s ease}
+.strip figure:hover img{filter:none}
+/* view-transition 圆形主题擦除 */
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+::view-transition-new(root){clip-path:circle(0px at var(--tx,50%) var(--ty,50%));animation:wipe .55s ease-out}
+@keyframes wipe{to{clip-path:circle(var(--tr,150%) at var(--tx,50%) var(--ty,50%))}}
+/* 章节微缩地图 */
+#minimap{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:14px}
+#minimap a{display:flex;align-items:center;justify-content:flex-end;gap:8px;text-decoration:none}
+#minimap i{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all .3s;display:block}
+#minimap a.on i{background:var(--accent);transform:scale(1.5)}
+#minimap span{font-size:11px;color:var(--muted);opacity:0;transition:opacity .3s;letter-spacing:.1em}
+#minimap a.on span,#minimap a:hover span{opacity:1}
+/* 数据条 */
+.stats{display:flex;gap:8px;margin:8px 0 0;padding:26px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stats div{flex:1;text-align:center}
+.stats b{display:block;font-family:'Space Grotesk',monospace;font-size:34px;font-weight:700;letter-spacing:.02em}
+.stats b em{font-style:normal;color:var(--accent)}
+.stats span{font-size:12px;color:var(--muted);letter-spacing:.08em}
+@media(max-width:900px){#minimap{display:none}}
+@media(prefers-reduced-motion:reduce){::view-transition-new(root){animation:none}}
+@media(max-width:640px){.now2{grid-template-columns:1fr}.now2 img{min-height:0;max-height:180px}.prow.has-thumb{grid-template-columns:90px 1fr}.pthumb{display:none}}
+/* project list */
+.plist-group{margin-bottom:40px}
+.plist-group:last-child{margin-bottom:0}
+.plist-title{font-family:'Space Grotesk',monospace;font-size:12px;letter-spacing:4px;color:var(--muted);margin-bottom:6px}
+.stills{margin-top:44px}
+.strip{display:flex;gap:14px;overflow-x:auto;padding:6px 2px 14px;scroll-snap-type:x mandatory}
+.strip figure{margin:0;flex:0 0 auto;scroll-snap-align:start}
+.strip img{height:190px;border-radius:10px;display:block;border:1px solid var(--border)}
+.strip figcaption{font-size:12px;color:var(--muted);margin-top:8px;letter-spacing:.04em}
+.prow{display:grid;grid-template-columns:90px 1fr;gap:18px;padding:22px 0;border-bottom:1px solid var(--border)}
+.prow:last-child{border-bottom:none}
+.prow .year{font-family:'Space Grotesk',monospace;font-size:13px;color:var(--muted);padding-top:4px}
+.prow h3{font-size:20px;margin-bottom:2px}
+.prow h3 .en{font-family:'Space Grotesk',monospace;font-size:13px;color:var(--secondary);font-weight:500;margin-left:10px}
+.prow .desc{font-size:14px;color:var(--muted);margin:8px 0 12px;max-width:560px}
+.prow .meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:12px}
+.prow .meta span{color:var(--muted)}
+.prow .meta b{color:var(--text);font-weight:500}
+.prow .meta .hl{color:var(--accent);font-weight:700}
+/* lab */
+.exp{display:grid;grid-template-columns:110px 1fr;gap:18px;padding:22px 0;border-bottom:1px solid var(--border)}
+.exp:last-child{border-bottom:none}
+.exp .no{font-family:'Space Grotesk',monospace;font-size:13px;color:var(--accent);font-weight:700;padding-top:4px}
+.exp h3{font-size:17px;margin-bottom:6px}
+.exp p{font-size:14px;color:var(--muted)}
+.exp a{color:var(--accent);text-decoration:none;font-size:14px;font-weight:700}
+/* awards timeline */
+.tl{position:relative;padding-left:28px}
+.tl:before{content:'';position:absolute;left:8px;top:6px;bottom:6px;width:1px;background:var(--border)}
+.tl-year{font-family:'Space Grotesk',monospace;font-size:14px;color:var(--muted);margin:26px 0 6px;position:relative}
+.tl-year:before{content:'';position:absolute;left:-24px;top:8px;width:9px;height:9px;border-radius:50%;background:var(--accent)}
+.tl-item{padding:10px 0}
+.tl-item .n{font-weight:700}
+.tl-item .p{font-family:'Space Grotesk',monospace;color:var(--accent);font-size:13px;margin-left:12px}
+/* about */
+.about p{font-size:16px;color:var(--muted);max-width:640px;margin-bottom:16px}
+.about p strong{color:var(--text)}
+/* footer */
+footer{border-top:1px solid var(--border);padding:48px 0 32px;margin-top:32px}
+footer .manifesto{font-size:22px;font-weight:900;line-height:1.6;margin-bottom:6px}
+footer .manifesto .it{font-style:italic;font-family:'Space Grotesk',serif;color:var(--accent)}
+footer .manifesto-cn{color:var(--muted);font-size:14px;margin-bottom:24px}
+footer .foot-row{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+footer a{color:var(--muted);text-decoration:none}
+@media(max-width:720px){
+  .hero .statement{font-size:30px}
+  .now .now-body{grid-template-columns:1fr}
+  .now .now-side{border-left:none;border-top:1px solid var(--border);min-height:160px}
+  .prow,.exp{grid-template-columns:1fr;gap:6px}
+  .nav-links a{display:none}
+}
+</style>
+</head>
+<body>
+<div id="minimap">
+  <a href="#top" data-s="top"><span>首页</span><i></i></a>
+  <a href="#work" data-s="work"><span>项目</span><i></i></a>
+  <a href="#lab" data-s="lab"><span>实战</span><i></i></a>
+  <a href="#awards" data-s="awards"><span>荣誉</span><i></i></a>
+  <a href="#about" data-s="about"><span>关于</span><i></i></a>
+</div>
+<nav>
+  <div class="wrap">
+    <div class="logo">好好先生<em>.</em></div>
+    <div class="nav-links">
+      <a href="#work">项目</a>
+      <a href="#lab">实战记录</a>
+      <a href="#awards">荣誉</a>
+      <a href="#about">关于</a>
+      <button id="themeBtn" title="切换深浅色">☾</button>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="statement" id="typewriter"></div>
+    <div class="who">好好先生 · 夜雨工作室 · <span class="en">AI GAME MAKER</span></div>
+    <div class="en-line">Building games with AI, one experiment at a time.</div>
+
+    <div class="ai-meter">
+      <div class="label"><span>AI PARTICIPATION LEVEL</span><b id="aiPct">70%</b></div>
+      <input type="range" id="aiRange" min="0" max="100" value="70">
+      <div class="mode" id="aiMode"><b>协作模式</b> <span>—— AI 帮我探索玩法、生成素材、加速开发。</span></div>
+    </div>
+
+    <div class="now">
+      <div class="now-head">
+        <span class="k">NOW BUILDING</span>
+        <span class="v">v0.3 · 最近实验 2026-10-05</span>
+      </div>
+      <div class="now-body">
+        <div class="now-main">
+          <h3>《时光阁》</h3>
+          <div class="sub">3D 中式叙事 · 团结引擎</div>
+          <div class="stage">
+            <div class="s-label">STAGE</div>
+            <div class="bar"><i></i></div>
+            <div class="s-steps"><span>Prototype</span><span>Vertical Slice</span><span>Demo</span></div>
+          </div>
+          <ul class="pipe">
+            <li><span>Concept 概念</span><span class="done">✓</span></li>
+            <li><span>Art 美术</span><span class="done">✓</span></li>
+            <li><span>Code 代码</span><span class="done">✓</span></li>
+            <li><span>Playtest 测试</span><span class="next">→</span></li>
+          </ul>
+        </div>
+        <div class="now-side">时光阁</div>
+      </div>
+      <div class="now-foot">
+        <span style="font-size:13px;color:var(--muted)">铜哨三声哨语，坠入旧物精神空间</span>
+        <a class="btn" href="#lab">进入开发日志</a>
+      </div>
+    </div>
+
+    <div class="now2">
+      <img src="img/aitown-plaza.jpg" alt="AI 小镇 · 镇中心广场">
+      <div class="t">
+        <div class="k">NOW BUILDING · 北京黑客松入围奖</div>
+        <h3>《AI 小镇》</h3>
+        <div class="d">民国建造游戏。说一句话就起一栋楼，接 NPC 委托赚大洋，把荒地聚落建成传奇之城。小镇会记住你做过什么。</div>
+        <div class="tags"><span class="tag">团结引擎</span><span class="tag">LLM · NPC 智能体</span></div>
+      </div>
+    </div>
+
+  </section>
+
+  <div class="wrap">
+    <div class="stats reveal">
+      <div><b data-count="10">0</b><span>游戏与工具</span></div>
+      <div><b data-count="3">0</b><span>2026 黑客松奖项</span></div>
+      <div><b data-count="7.8" data-dec="1">0</b><span>TapTap 评分</span></div>
+      <div><b data-count="43">0</b><span>GitHub Stars</span></div>
+    </div>
+  </div>
+
+  <!-- WORK -->
+  <section id="work" class="reveal">
+    <div class="kicker">PROJECTS</div>
+    <div class="plist-group">
+      <div class="plist-title">NOW — 进行中</div>
+      <div class="prow">
+        <div class="year">2026 —</div>
+        <div>
+          <h3>《时光阁》<span class="en">3D Narrative Adventure</span></h3>
+          <div class="desc">失业青年在旧物店"时光阁"应聘，触碰铜哨坠入旧物精神空间。为比赛而做的主力项目。</div>
+          <div class="meta"><span>Role <b>制作人 / AI 管线设计</b></span><span>Engine <b>团结引擎</b></span><span>AI Used <b>GPT · Claude · 生图模型</b></span></div>
+        </div>
+      </div>
+      <div class="prow has-thumb">
+        <div class="year">2026 —</div>
+        <div>
+          <h3>《AI 小镇》<span class="en">AI Town Builder</span></h3>
+          <div class="desc">民国建造游戏。说一句话就起一栋楼，接 NPC 委托赚大洋，把荒地聚落建成传奇之城。小镇会记住你做过什么。</div>
+          <div class="meta"><span>Role <b>独立开发者</b></span><span>Engine <b>团结引擎</b></span><span>AI Used <b>LLM · NPC 智能体</b></span><span class="hl">北京黑客松入围奖</span></div>
+        </div>
+      </div>
+        <img class="pthumb" src="img/aitown-plaza.jpg" alt="AI 小镇">
+    </div>
+    <div class="plist-group">
+      <div class="plist-title">SHIPPED — 已发布</div>
+      <div class="prow has-thumb">
+        <div class="year">2026</div>
+        <div>
+          <h3>《深渊咖啡馆》<span class="en">Narrative Simulation</span></h3>
+          <div class="desc">在深渊边缘开一家咖啡馆，倾听顾客的故事，调配诡异饮品。28 位普通顾客 + 15 位神秘来客。</div>
+          <div class="meta"><span>Role <b>独立开发者</b></span><span>Engine <b>Unity</b></span><span class="hl">★ 7.8 TapTap</span><span><a href="https://www.taptap.cn/app/884255" target="_blank" style="color:var(--accent);font-weight:700;text-decoration:none">TapTap →</a></span></div>
+        </div>
+      </div>
+        <img class="pthumb" src="img/abyss-icon.jpg" alt="深渊咖啡馆">
+      <div class="prow has-thumb">
+        <div class="year">2026</div>
+        <div>
+          <h3>《晋商传奇》<span class="en">Interactive Game</span></h3>
+          <div class="desc">晋商题材互动游戏。开启商路，汇通天下，信立乾坤。百度秒哒山西 AI 黑客松参赛作品。</div>
+          <div class="meta"><span>Role <b>独立开发者</b></span><span>Engine <b>秒哒</b></span><span class="hl">百度秒哒三等奖</span><span><a href="https://app-bluvcwhe8oht.appmiaoda.com" target="_blank" style="color:var(--accent);font-weight:700;text-decoration:none">试玩 →</a></span></div>
+        </div>
+      </div>
+        <img class="pthumb" src="img/jinshang-title.png" alt="晋商传奇">
+      <div class="prow">
+        <div class="year">2026</div>
+        <div>
+          <h3>《3046 班次》<span class="en">Interactive Film</span></h3>
+          <div class="desc">互动影游，沉淀"冲突炼金术"方法论。</div>
+          <div class="meta"><span>Role <b>编剧 / 开发者</b></span><span class="hl">互动影游</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="plist-group">
+      <div class="plist-title">EXPERIMENTS — 实验项目</div>
+      <div class="prow has-thumb">
+        <div class="year">2026</div>
+        <div>
+          <h3>《侠影手谈》<span class="en">HTML5 Card Battle</span></h3>
+          <div class="desc">武侠卡牌对战。沈知微夜闯听风楼，月夜三关，牌库守恒。本站可直接试玩。</div>
+          <div class="meta"><span>Role <b>游戏设计 / AI 协作开发</b></span><span>Engine <b>Web</b></span><span class="hl">可试玩</span><span><a href="javascript:void(0)" data-play style="color:var(--accent);font-weight:700;text-decoration:none">▶ 开始试玩</a></span></div>
+        </div>
+      </div>
+        <img class="pthumb" src="img/xiaying-battle.png" alt="侠影手谈">
+      <div class="prow">
+        <div class="year">2026 —</div>
+        <div>
+          <h3>《培养皿：弹幕余生》<span class="en">Action</span></h3>
+          <div class="desc">在培养皿中求生，弹幕与余生的对抗。</div>
+          <div class="meta"><span>Role <b>独立开发者</b></span><span>Engine <b>Unity</b></span></div>
+        </div>
+      </div>
+      <div class="prow">
+        <div class="year">2026 —</div>
+        <div>
+          <h3>《论剑》<span class="en">Card Battle</span></h3>
+          <div class="desc">卡牌对战。TapTap 制造开发，创意工坊测试中。</div>
+          <div class="meta"><span>Role <b>独立开发者</b></span><span>Engine <b>TapTap 制造</b></span></div>
+        </div>
+      </div>
+      <div class="prow">
+        <div class="year">2025</div>
+        <div>
+          <h3>《赛博拆迁队》<span class="en">Cyber Demolition</span></h3>
+          <div class="desc">网页 3D 物理破坏解压游戏。扮演巨兽拆除 AI 建筑师的"完美城市"，Gemini 实时生成关卡布局和毒舌解说。</div>
+          <div class="meta"><span>Role <b>独立开发者</b></span><span>Engine <b>Web · Rapier</b></span><span>AI Used <b>Gemini</b></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="plist-group">
+      <div class="plist-title">OPEN SOURCE — 开源工具</div>
+      <div class="prow">
+        <div class="year">2025</div>
+        <div>
+          <h3>godot-mcp<span class="en">Godot × MCP</span></h3>
+          <div class="desc">自然语言驱动 Godot 开发：AI 直接读写场景、调用 API、修复版本兼容问题，中文开发者本地化支持。</div>
+          <div class="meta"><span>Role <b>作者</b></span><span class="hl">★ 43 GitHub</span><span><a href="https://github.com/hhhh124hhhh/godot-mcp" target="_blank" style="color:var(--accent);font-weight:700;text-decoration:none">GitHub →</a></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <div class="stills">
+      <div class="plist-title">片场 — PRODUCTION STILLS</div>
+      <div class="strip">
+        <figure><img src="img/aitown-plaza.jpg" alt="AI 小镇 · 镇中心广场"><figcaption>AI 小镇 · 镇中心广场</figcaption></figure>
+        <figure><img src="img/aitown-gate_paifang.jpg" alt="AI 小镇 · 牌坊"><figcaption>AI 小镇 · 牌坊</figcaption></figure>
+        <figure><img src="img/aitown-mansion_dusk.jpg" alt="AI 小镇 · 黄昏"><figcaption>AI 小镇 · 黄昏</figcaption></figure>
+        <figure><img src="img/aitown-town_plaza.jpg" alt="AI 小镇 · 集市"><figcaption>AI 小镇 · 集市</figcaption></figure>
+        <figure><img src="img/abyss-icon.jpg" alt="深渊咖啡馆"><figcaption>深渊咖啡馆 · TapTap</figcaption></figure>
+        <figure><img src="img/jinshang-title.png" alt="晋商传奇"><figcaption>晋商传奇 · 标题屏</figcaption></figure>
+        <figure><img src="img/xiaying-battle.png" alt="侠影手谈"><figcaption>侠影手谈 · 月夜对战</figcaption></figure>
+      </div>
+    </div>
+
+  <!-- LAB -->
+  <section id="lab" class="reveal">
+    <div class="kicker">AI GAME LAB</div>
+    <div class="exp">
+      <div class="no">AI EXP #001</div>
+      <div>
+        <h3>免费 AI 当代码审查员，靠谱吗？</h3>
+        <p>拿 OpenRouter 匿名免费模型审查 151 KB 的游戏代码，找出 3 个真 bug，也闹过误报。结论：可用，但必须人工审 patch。</p>
+        <a href="#">阅读全文 →</a>
+      </div>
+    </div>
+    <div class="exp">
+      <div class="no">AI EXP #002</div>
+      <div>
+        <h3>AI 创作流水线：从一句话到 TapTap 上架</h3>
+        <p>Grok 挖灵感、AI 生美术音乐、TapTap 制造组装。一套跑通小体量单机游戏的低成本管线。</p>
+        <a href="#">阅读全文 →</a>
+      </div>
+    </div>
+    <div class="exp">
+      <div class="no">AI EXP #003</div>
+      <div>
+        <h3>《深渊咖啡馆》上架复盘：7.8 分是怎么来的</h3>
+        <p>叙事模拟经营的冷启动经验：题材选择、TapTap 审核、玩家反馈迭代。</p>
+        <a href="#">阅读全文 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- AWARDS -->
+  <section id="awards" class="reveal">
+    <div class="kicker">HONORS</div>
+    <div class="tl">
+      <div class="tl-year">2026</div>
+      <div class="tl-item"><span class="n">AI 切磋大会第 18 期 · WaytoAGI 全球黑客松</span><span class="p">2nd Place</span></div>
+      <div class="tl-item"><span class="n">百度秒哒山西 AI 黑客松</span><span class="p">3rd Place</span></div>
+      <div class="tl-item"><span class="n">烈变千人黑客松 · 游戏赛道</span><span class="p">Finalist</span></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="reveal" class="about">
+    <div class="kicker">ABOUT</div>
+    <p>我是 <strong>好好先生</strong>，"夜雨工作室"主理人，独立游戏开发者。</p>
+    <p>我相信<strong>热爱是最好的生产力</strong>。AI 正在改写小团队做游戏的方式，我的长期目标是成为一名 <strong>AI 游戏制作人</strong>：用 AI 把一个人的想法，变成一群人爱玩的游戏。</p>
+    <p>这个站是我的实验档案。判断力是护城河，作品是唯一的简历。</p>
+    <div style="margin-top:28px;padding:20px;border:1px dashed var(--border);border-radius:10px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <button id="whistleBtn" style="background:var(--primary);color:var(--bg);border:none;border-radius:50%;width:56px;height:56px;font-size:20px;font-weight:900;cursor:pointer;font-family:'Noto Sans SC',serif" title="吹响铜哨">哨</button>
+      <div>
+        <div style="font-weight:700;font-size:14px">时光阁的铜哨</div>
+        <div id="whistleText" style="font-size:13px;color:var(--muted)">点一下，听听三种哨语</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="manifesto">夜雨工作室<br><span class="it">Making games, learning with AI.</span></div>
+    <div class="manifesto-cn">公开记录 AI 创造游戏的每一步。Built in public since 2026.</div>
+    <div class="foot-row">
+      <span>© 2026 好好先生</span>
+      <a href="https://github.com/hhhh124hhhh" target="_blank">GitHub @ hhhh124hhhh</a>
+    </div>
+  </div>
+</footer>
+
+<div id="ripple"></div>
+
+<!-- 试玩浮层 -->
+<div id="playOverlay" style="display:none;position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.85);align-items:center;justify-content:center">
+  <div style="width:min(960px,94vw)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;color:#fff">
+      <span style="font-weight:700">侠影手谈 · 试玩</span>
+      <button id="playClose" style="background:none;border:1px solid #555;color:#fff;border-radius:20px;width:36px;height:36px;cursor:pointer;font-size:16px">✕</button>
+    </div>
+    <iframe id="playFrame" src="" style="width:100%;aspect-ratio:16/10;border:none;border-radius:10px;background:#000" allow="autoplay"></iframe>
+  </div>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement, btn=document.getElementById('themeBtn');
+  function setTheme(t){ root.setAttribute('data-theme',t); btn.textContent = t==='dark'?'☀':'☾'; try{localStorage.setItem('theme',t)}catch(e){} }
+  var saved=null; try{saved=localStorage.getItem('theme')}catch(e){}
+  setTheme(saved || (window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'));
+  btn.onclick=function(e){
+    var next=root.getAttribute('data-theme')==='dark'?'light':'dark';
+    var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!document.startViewTransition || reduced){ setTheme(next); return; }
+    var x=(e&&e.clientX)||(innerWidth-40), y=(e&&e.clientY)||40;
+    var r=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
+    root.style.setProperty('--tx',x+'px'); root.style.setProperty('--ty',y+'px'); root.style.setProperty('--tr',r+'px');
+    document.startViewTransition(function(){ setTheme(next); });
+  };
+
+  /* AI 参与度滑杆 */
+  var range=document.getElementById('aiRange'), pct=document.getElementById('aiPct'), mode=document.getElementById('aiMode');
+  function renderAI(){
+    var v=+range.value; pct.textContent=v+'%';
+    if(v<=33){ mode.innerHTML='<b>传统模式</b> <span>—— 设计、代码、美术全部人工完成，不依赖 AI。</span>'; }
+    else if(v<=80){ mode.innerHTML='<b>协作模式</b> <span>—— AI 帮我探索玩法、生成素材、加速开发。</span>'; }
+    else { mode.innerHTML='<b>共生模式</b> <span>—— AI 参与从概念、原型到测试的整个创造循环。</span>'; }
+  }
+  range.oninput=renderAI; renderAI();
+
+  /* 侠影手谈试玩 */
+  var overlay=document.getElementById('playOverlay'), frame=document.getElementById('playFrame');
+  document.querySelectorAll('[data-play]').forEach(function(b){
+    b.onclick=function(){ frame.src='https://hhhh124hhhh.github.io/xiaying-shoutan/'; overlay.style.display='flex'; document.body.style.overflow='hidden'; };
+  });
+  document.getElementById('playClose').onclick=function(){ frame.src=''; overlay.style.display='none'; document.body.style.overflow=''; };
+  overlay.onclick=function(e){ if(e.target===overlay){ frame.src=''; overlay.style.display='none'; document.body.style.overflow=''; } };
+
+  /* 铜哨三声 */
+  var phrases=[{k:'SS',t:'我在这儿',f:660},{k:'L',t:'等等我',f:520},{k:'SLS',t:'老地方见',f:740}], wi=0, actx=null;
+  function beep(freq,dur){
+    try{
+      actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+      var o=actx.createOscillator(), g=actx.createGain();
+      o.type='sine'; o.frequency.value=freq;
+      g.gain.setValueAtTime(0.0001,actx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.25,actx.currentTime+0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001,actx.currentTime+dur);
+      o.connect(g); g.connect(actx.destination);
+      o.start(); o.stop(actx.currentTime+dur);
+    }catch(e){}
+  }
+  document.getElementById('whistleBtn').onclick=function(){
+    var w=phrases[wi%phrases.length]; wi++;
+    var notes=w.k.split(''), i=0;
+    (function next(){ if(i>=notes.length) return; beep(notes[i]==='S'?w.f:w.f*0.8,0.28); i++; setTimeout(next,340); });
+    document.getElementById('whistleText').textContent=w.k+' · 「'+w.t+'」';
+  };
+
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.onclick=function(e){ var el=document.querySelector(a.getAttribute('href')); if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth'}); } };
+  });
+
+  /* 打字机 hero */
+  var tw=document.getElementById('typewriter');
+  var twHTML='我正在证明，<span class="it">一个人</span>也可以借助 AI 做出完整游戏。<span class="cursor"></span>';
+  var twText='我正在证明，一个人也可以借助 AI 做出完整游戏。';
+  var ti=0;
+  function typeStep(){
+    if(ti<=twText.length){
+      var shown=twText.slice(0,ti);
+      shown=shown.replace('一个人','<span class="it">一个人</span>');
+      tw.innerHTML=shown+'<span class="cursor"></span>';
+      ti++;
+      setTimeout(typeStep, twText[ti-1]==='，'?320:90);
+    } else { tw.innerHTML=twHTML; }
+  }
+  setTimeout(typeStep, 400);
+
+  /* 滚动渐入 */
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  /* 铜哨涟漪 */
+  var rippleBox=document.getElementById('ripple');
+  var _whistleBtn=document.getElementById('whistleBtn');
+  _whistleBtn.addEventListener('click',function(){
+    rippleBox.style.display='flex';
+    rippleBox.innerHTML='<div class="ring"></div><div class="phrase">'+document.getElementById('whistleText').textContent.split(' · ')[1]+'</div>';
+    setTimeout(function(){ rippleBox.style.display='none'; rippleBox.innerHTML=''; },1700);
+  });
+/* 章节微缩地图 */
+  var mmLinks={};
+  document.querySelectorAll('#minimap a').forEach(function(a){ mmLinks[a.getAttribute('data-s')]=a; });
+  var mmIO=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        Object.keys(mmLinks).forEach(function(k){ mmLinks[k].classList.remove('on'); });
+        var l=mmLinks[e.target.id]; if(l) l.classList.add('on');
+      }
+    });
+  },{rootMargin:'-40% 0px -55% 0px'});
+  ['top','work','lab','awards','about'].forEach(function(id){ var el=document.getElementById(id); if(el) mmIO.observe(el); });
+
+  /* 数据条滚动计数 */
+  var counted=false;
+  var statIO=new IntersectionObserver(function(es){
+    if(es[0].isIntersecting && !counted){
+      counted=true;
+      document.querySelectorAll('.stats b').forEach(function(b){
+        var target=parseFloat(b.getAttribute('data-count')), dec=+(b.getAttribute('data-dec')||0);
+        var t0=null;
+        function step(t){
+          if(!t0) t0=t;
+          var p=Math.min((t-t0)/1200,1), e2=1-Math.pow(1-p,3);
+          b.textContent=(target*e2).toFixed(dec);
+          if(p<1) requestAnimationFrame(step); else b.textContent=target.toFixed(dec);
+        }
+        requestAnimationFrame(step);
+      });
+      statIO.disconnect();
+    }
+  },{threshold:0.4});
+  var statsEl=document.querySelector('.stats'); if(statsEl) statIO.observe(statsEl);
+})();
+</script>
+</body>
+</html>
