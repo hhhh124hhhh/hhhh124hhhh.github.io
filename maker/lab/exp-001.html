@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI EXP #001 · 免费 AI 当代码审查员，靠谱吗？ — 好好先生</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F7F6F2;--card:#FFFFFF;--text:#181818;--muted:#6B6B6B;--border:#E5E3DE;--primary:#161616;--accent:#C84432}
+html[data-theme="dark"]{--bg:#101112;--card:#181A1D;--text:#F2F1ED;--muted:#A6A6A6;--border:#26282C;--primary:#F2F1ED;--accent:#D45643}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Inter','Noto Sans SC',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;line-height:2;transition:background .3s,color .3s}
+.wrap{max-width:720px;margin:0 auto;padding:0 24px}
+nav{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--border);z-index:10}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:60px}
+nav a{color:var(--muted);text-decoration:none;font-size:14px}
+article{padding:56px 0}
+.no{font-family:'Space Grotesk',monospace;font-size:12px;letter-spacing:4px;color:var(--accent);margin-bottom:12px}
+h1{font-size:32px;font-weight:900;line-height:1.5;margin-bottom:8px}
+.meta{font-size:13px;color:var(--muted);margin-bottom:36px}
+h2{font-size:20px;margin:36px 0 12px}
+p{margin:14px 0;font-size:16px}
+ul{margin:14px 0 14px 22px;font-size:16px}
+li{margin:8px 0}
+.verdict{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:18px 22px;margin:32px 0;font-size:16px}
+.back{display:inline-block;margin:20px 0 60px;color:var(--accent);text-decoration:none;font-weight:700}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><a href="../index.html">← 好好先生</a><a href="../index.html#lab">AI GAME LAB</a></div></nav>
+<div class="wrap"><article>
+<div class="no">AI EXP #001</div>
+<h1>免费 AI 当代码审查员，靠谱吗？</h1>
+<div class="meta">2026-10-05 · 实测记录</div>
+<p>做游戏久了，最缺的不是写代码的人，是帮你看代码的人。请不起，就找免费 AI 试试。</p>
+<h2>实验设计</h2>
+<p>考场是一个 17 个文件、151KB 的修仙小游戏代码库。我把它完整丢给 OpenRouter 上的匿名免费模型 Space Bunny，只给一个指令：找 bug。</p>
+<h2>结果</h2>
+<p>它报了 3 个，全是真 bug：</p>
+<ul>
+<li>存档版本号 "2.0" 和 "2.0.0" 对不上，读档会静默失败</li>
+<li>show_confirmation 函数恒返回 True，确认框形同虚设</li>
+<li>动作 ID 用英文定义，判断时却写了中文名，对不上号</li>
+</ul>
+<p>3 报 3 中，零误报。这个成绩，免费的还要什么自行车。</p>
+<h2>翻车记录</h2>
+<p>但它不是每次都靠谱。同一个模型，我让它进 Aider 自主循环修 5 个 UI 小问题，它要了四份代码，看完说"没有新的修改建议"，零改动收工。</p>
+<p>后来换 OpenCode 同考场重测，它 5 项全改对，还自己跑回归验证。证明之前是 harness 的问题，不是模型不行。工具链会背刺，要分清。</p>
+<p>还有一次，它出的 patch 里调用了一个不存在的 API。缺上下文时，它会一本正经地编代码。</p>
+<div class="verdict"><b>结论：</b>免费 AI 当代码审查员可用，当甩手掌柜不行。patch 必须人工逐行审，合入前自己跑一遍。有完整上下文时它很强，缺上下文时它会编。</div>
+<p>顺带一提，这个模型中途下线过一次，后来通过 OpenCode 免费通道又回来了。免费的东西，珍惜当下。</p>
+<a class="back" href="../index.html#lab">← 返回实战记录</a>
+</article></div>
+</body>
+</html>

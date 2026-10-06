@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI EXP #002 · AI 创作流水线 — 好好先生</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F7F6F2;--card:#FFFFFF;--text:#181818;--muted:#6B6B6B;--border:#E5E3DE;--primary:#161616;--accent:#C84432}
+html[data-theme="dark"]{--bg:#101112;--card:#181A1D;--text:#F2F1ED;--muted:#A6A6A6;--border:#26282C;--primary:#F2F1ED;--accent:#D45643}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Inter','Noto Sans SC',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;line-height:2;transition:background .3s,color .3s}
+.wrap{max-width:720px;margin:0 auto;padding:0 24px}
+nav{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--border);z-index:10}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:60px}
+nav a{color:var(--muted);text-decoration:none;font-size:14px}
+article{padding:56px 0}
+.no{font-family:'Space Grotesk',monospace;font-size:12px;letter-spacing:4px;color:var(--accent);margin-bottom:12px}
+h1{font-size:32px;font-weight:900;line-height:1.5;margin-bottom:8px}
+.meta{font-size:13px;color:var(--muted);margin-bottom:36px}
+h2{font-size:20px;margin:36px 0 12px}
+p{margin:14px 0;font-size:16px}
+ol{margin:14px 0 14px 22px;font-size:16px}
+li{margin:10px 0}
+.verdict{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:18px 22px;margin:32px 0;font-size:16px}
+.back{display:inline-block;margin:20px 0 60px;color:var(--accent);text-decoration:none;font-weight:700}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><a href="../index.html">← 好好先生</a><a href="../index.html#lab">AI GAME LAB</a></div></nav>
+<div class="wrap"><article>
+<div class="no">AI EXP #002</div>
+<h1>AI 创作流水线：从一句话到成品</h1>
+<div class="meta">2026-09-30 · 方法沉淀</div>
+<p>一个人做游戏和短视频，最大的敌人是工序太多。这套流水线是我跑通之后沉淀下来的，四条线，各管一摊。</p>
+<h2>四条线</h2>
+<ol>
+<li><b>找灵感：</b>Grok 挖 X 上的爆款 AI 视频和 prompt，盯一手源，不看二手转述。</li>
+<li><b>做音乐：</b>Suno 网页端，歌词或主题丢进去，免费额度每天 50 credits，够用。</li>
+<li><b>做图：</b>ChatGPT Plus 网页版。关键技巧是锁脸：先定一张脸，同一对话里只换背景不换人，免费且稳定。</li>
+<li><b>做视频：</b>fal.ai 的 MiniMax H3 图生视频。6 秒约 0.48 美元，每天有 5 次免费额度。</li>
+</ol>
+<h2>最贵的坑</h2>
+<p>图生视频的输入图，必须和提示词描述的是同一个场景。拿灰底证件照去生成地铁夜市场景，首帧会硬切，整条片子就废了。这个坑烧掉我好几次免费额度才长记性。</p>
+<h2>实战检验</h2>
+<p>这套管线跑出了 Lin 短视频账号：21 岁交换生人设，口头禅 oops，走连载路线。YouTube 和 TikTok 双发，数据验证过转化逻辑。</p>
+<div class="verdict"><b>结论：</b>AI 创作不是堆工具，是排工序。每一步的输入输出格式定死，人才不用在中间当搬运工。</div>
+<a class="back" href="../index.html#lab">← 返回实战记录</a>
+</article></div>
+</body>
+</html>
