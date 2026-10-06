@@ -258,8 +258,8 @@ footer a{color:var(--muted);text-decoration:none}
     <div class="kicker">PROJECTS</div>
     <div class="tabs">
       <button class="tab on" data-t="now">进行中 · 2</button>
-      <button class="tab" data-t="shipped">已发布 · 5</button>
-      <button class="tab" data-t="exp">实验 · 3</button>
+      <button class="tab" data-t="shipped">已发布 · 3</button>
+      <button class="tab" data-t="exp">实验 · 4</button>
       <button class="tab" data-t="oss">开源工具 · 1</button>
     </div>
     <div class="plist-group tabpanel on" data-p="now">
@@ -472,6 +472,7 @@ footer a{color:var(--muted);text-decoration:none}
   function beep(freq,dur){
     try{
       actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+      if(actx.state==='suspended'){ actx.resume(); }
       var o=actx.createOscillator(), g=actx.createGain();
       o.type='sine'; o.frequency.value=freq;
       g.gain.setValueAtTime(0.0001,actx.currentTime);
